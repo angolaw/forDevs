@@ -23,7 +23,13 @@ void main() {
     sut = HttpAdapter(client: client);
     url = faker.internet.httpUrl();
   });
-
+  group("shared", () {
+    test("should throw ServerError when an invalid http verb is provided",
+        () async {
+      final future = sut.request(url: url, method: 'away');
+      expect(future, throwsA(HttpError.serverError));
+    });
+  });
   group("post", () {
     setUp(() {
       mockResponse(200);
