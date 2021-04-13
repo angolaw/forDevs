@@ -24,6 +24,13 @@ void main() {
 
   group("HttpClient", () {
     test("Should call httpClient with correct url", () async {
+      final accessToken = faker.guid.guid();
+      when(httpClient.request(
+              url: anyNamed('url'),
+              method: anyNamed('method'),
+              body: anyNamed('body')))
+          .thenAnswer((_) async =>
+              {'accessToken': accessToken, 'name': faker.person.name()});
       await sut.auth(params: params);
       verify(httpClient.request(
           url: url,
@@ -31,6 +38,13 @@ void main() {
           body: {'email': params.email, 'password': params.secret}));
     });
     test("Should call httpClient with correct values", () async {
+      final accessToken = faker.guid.guid();
+      when(httpClient.request(
+              url: anyNamed('url'),
+              method: anyNamed('method'),
+              body: anyNamed('body')))
+          .thenAnswer((_) async =>
+              {'accessToken': accessToken, 'name': faker.person.name()});
       await sut.auth(params: params);
       verify(httpClient.request(
           url: url,
@@ -38,6 +52,13 @@ void main() {
           body: {'email': params.email, 'password': params.secret}));
     });
     test("should call httpClient with correct body", () async {
+      final accessToken = faker.guid.guid();
+      when(httpClient.request(
+              url: anyNamed('url'),
+              method: anyNamed('method'),
+              body: anyNamed('body')))
+          .thenAnswer((_) async =>
+              {'accessToken': accessToken, 'name': faker.person.name()});
       await sut.auth(params: params);
       verify(httpClient.request(
           url: url,
@@ -82,6 +103,19 @@ void main() {
           .thenThrow(HttpError.unauthorized);
       final future = sut.auth(params: params);
       expect(future, throwsA(DomainError.invalidCredentials));
+    });
+  });
+  group("API call success", () {
+    test("Should return an Account if HttpClient return 200", () async {
+      final accessToken = faker.guid.guid();
+      when(httpClient.request(
+              url: anyNamed('url'),
+              method: anyNamed('method'),
+              body: anyNamed('body')))
+          .thenAnswer((_) async =>
+              {'accessToken': accessToken, 'name': faker.person.name()});
+      final account = await sut.auth(params: params);
+      expect(account.token, accessToken);
     });
   });
 }
