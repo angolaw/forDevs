@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fordev/data/http/http.dart';
 import 'package:fordev/data/usecases/usecases.dart';
+import 'package:fordev/domain/helpers/helpers.dart';
 import 'package:fordev/domain/usecases/usecases.dart';
 import 'package:mockito/mockito.dart';
 import 'package:faker/faker.dart';
@@ -42,6 +43,17 @@ void main() {
           url: url,
           method: 'post',
           body: {'email': params.email, 'password': params.secret}));
+    });
+  });
+  group("API call errors", () {
+    test("Should throw UnexpectedError if HttpClient returns 400", () async {
+      when(httpClient.request(
+              url: anyNamed('url'),
+              method: anyNamed('method'),
+              body: anyNamed('body')))
+          .thenThrow(HttpError.badRequest);
+      final future = sut.auth(params: params);
+      expect(future, throwsA(DomainError.unexpected));
     });
   });
 }
