@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import './components/components.dart';
 import '../../components/components.dart';
 import '../pages.dart';
+import 'components/login_button.dart';
 
 class LoginPage extends StatefulWidget {
   final LoginPresenter presenter;
@@ -59,21 +60,8 @@ class _LoginPageState extends State<LoginPage> {
                             padding: EdgeInsets.only(top: 8.0, bottom: 32),
                             child: PasswordInput(),
                           ),
-                          StreamBuilder<bool>(
-                              stream: widget.presenter.isFormValidStream,
-                              builder: (context, snapshot) {
-                                return RaisedButton(
-                                    onPressed: snapshot.data == true
-                                        ? () {
-                                            widget.presenter.auth();
-                                          }
-                                        : null,
-                                    child: Text("Entrar".toUpperCase()));
-                              }),
-                          FlatButton.icon(
-                              onPressed: () {},
-                              icon: Icon(Icons.person),
-                              label: Text("Criar conta")),
+                          LoginButton(),
+                          CreateAccountButton(),
                         ],
                       ),
                     ),
