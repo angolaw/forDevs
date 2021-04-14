@@ -99,6 +99,7 @@ void main() {
 
       final password = faker.internet.password();
       await tester.enterText(find.bySemanticsLabel("Senha"), password);
+      //verify if validatePassword is called
       verify(presenter.validatePassword(password));
     });
   });
