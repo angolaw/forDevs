@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import './components/components.dart';
 import '../../components/components.dart';
 import '../pages.dart';
 
@@ -50,45 +51,12 @@ class _LoginPageState extends State<LoginPage> {
                   child: Form(
                     child: Column(
                       children: [
-                        StreamBuilder<String>(
-                            stream: widget.presenter.emailErrorStream,
-                            builder: (context, snapshot) {
-                              return TextFormField(
-                                onChanged: widget.presenter.validateEmail,
-                                decoration: InputDecoration(
-                                  labelText: 'Email',
-                                  errorText: snapshot.data?.isEmpty == true
-                                      ? null
-                                      : snapshot.data,
-                                  icon: Icon(
-                                    Icons.email,
-                                    color: Theme.of(context).primaryColorLight,
-                                  ),
-                                ),
-                                keyboardType: TextInputType.emailAddress,
-                              );
-                            }),
+                        EmailInput(widget: widget),
                         Padding(
                           padding: EdgeInsets.only(top: 8.0, bottom: 32),
-                          child: StreamBuilder<String>(
-                              stream: widget.presenter.passwordErrorStream,
-                              builder: (context, snapshot) {
-                                return TextFormField(
-                                  onChanged: widget.presenter.validatePassword,
-                                  decoration: InputDecoration(
-                                    labelText: 'Senha',
-                                    errorText: snapshot.data?.isEmpty == true
-                                        ? null
-                                        : snapshot.data,
-                                    icon: Icon(
-                                      Icons.lock,
-                                      color:
-                                          Theme.of(context).primaryColorLight,
-                                    ),
-                                  ),
-                                  obscureText: true,
-                                );
-                              }),
+                          child: PasswordInput(
+                            widget: widget,
+                          ),
                         ),
                         StreamBuilder<bool>(
                             stream: widget.presenter.isFormValidStream,
