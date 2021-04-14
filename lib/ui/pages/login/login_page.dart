@@ -34,17 +34,9 @@ class _LoginPageState extends State<LoginPage> {
           });
           widget.presenter.mainErrorStream.listen((hasMainError) {
             if (hasMainError != null) {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(
-                  hasMainError,
-                  textAlign: TextAlign.center,
-                ),
-                backgroundColor: Colors.red[900],
-              ));
+              showSnackBar(context, hasMainError);
             } else {
-              if (Navigator.canPop(context)) {
-                Navigator.pop(context);
-              }
+              hideLoading(context);
             }
           });
           return SingleChildScrollView(
