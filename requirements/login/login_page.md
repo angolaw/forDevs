@@ -15,4 +15,4 @@
 12. ✅ Exibir loading no início da ação de login
 13. ✅ Exibir mensagem de erro se o login falhar
 14. ✅ Esconder o loading no fim da ação de login
-15. Fechar streams no fim da ação de login
+15. ✅ Fechar streams no fim da ação de login
