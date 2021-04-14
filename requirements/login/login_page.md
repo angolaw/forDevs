@@ -13,7 +13,6 @@
 10. ✅ Habilitar o botão de login se os campos forem válidos
 11. ✅ Desabilitar o botão de login se algum dos campos for inválido
 12. ✅ Exibir loading no início da ação de login
-13. Autenticar usuário com email e senha informados no formulário
-14. Exibir mensagem de erro se o login falhar
-15. ✅ Esconder o loading no fim da ação de login
-16. Fechar streams no fim da ação de login
+13. ✅ Exibir mensagem de erro se o login falhar
+14. ✅ Esconder o loading no fim da ação de login
+15. Fechar streams no fim da ação de login
