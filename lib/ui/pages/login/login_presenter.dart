@@ -6,6 +6,6 @@ abstract class LoginPresenter {
   Stream<String> get mainErrorStream;
   Stream<bool> get isFormValidStream;
   Stream<bool> get isLoadingStream;
-  void auth() async {}
+  Future<void> auth();
   void dispose();
 }
