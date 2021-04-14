@@ -15,6 +15,5 @@
 12. Exibir loading no início da ação de login
 13. Autenticar usuário com email e senha informados no formulário
 14. Exibir mensagem de erro se o login falhar
-15. Gravar o token do usuário no cache para mantê-lo conectado
-16. Redirecionar o usuário para a tela de lista de enquetes
-17. Esconder loading no fim da ação de login
+15. Esconder o loading no fim da ação de login
+16. Fechar streams no fim da ação de login
