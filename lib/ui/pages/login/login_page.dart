@@ -27,9 +27,9 @@ class _LoginPageState extends State<LoginPage> {
         builder: (context) {
           widget.presenter.isLoadingStream.listen((isLoading) {
             if (isLoading) {
-              SpinnerDialog.showLoading(context, "Aguarde");
+              showLoading(context, "Aguarde");
             } else {
-              SpinnerDialog.hideLoading(context);
+              hideLoading(context);
             }
           });
           widget.presenter.mainErrorStream.listen((hasMainError) {
