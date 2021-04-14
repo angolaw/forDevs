@@ -1,22 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../pages.dart';
 
 class PasswordInput extends StatelessWidget {
-  const PasswordInput({
-    Key key,
-    @required this.widget,
-  }) : super(key: key);
-
-  final LoginPage widget;
-
   @override
   Widget build(BuildContext context) {
+    final presenter = Provider.of<LoginPresenter>(context);
     return StreamBuilder<String>(
-        stream: widget.presenter.passwordErrorStream,
+        stream: presenter.passwordErrorStream,
         builder: (context, snapshot) {
           return TextFormField(
-            onChanged: widget.presenter.validatePassword,
+            onChanged: presenter.validatePassword,
             decoration: InputDecoration(
               labelText: 'Senha',
               errorText: snapshot.data?.isEmpty == true ? null : snapshot.data,

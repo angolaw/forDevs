@@ -1,22 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../login_page.dart';
+import '../login_presenter.dart';
 
 class EmailInput extends StatelessWidget {
-  const EmailInput({
-    Key key,
-    @required this.widget,
-  }) : super(key: key);
-
-  final LoginPage widget;
-
   @override
   Widget build(BuildContext context) {
+    final presenter = Provider.of<LoginPresenter>(context);
     return StreamBuilder<String>(
-        stream: widget.presenter.emailErrorStream,
+        stream: presenter.emailErrorStream,
         builder: (context, snapshot) {
           return TextFormField(
-            onChanged: widget.presenter.validateEmail,
+            onChanged: presenter.validateEmail,
             decoration: InputDecoration(
               labelText: 'Email',
               errorText: snapshot.data?.isEmpty == true ? null : snapshot.data,
