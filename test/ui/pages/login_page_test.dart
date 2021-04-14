@@ -3,11 +3,15 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fordev/ui/pages/login_page.dart';
 
 void main() {
+  Future<void> loadPage(WidgetTester tester) async {
+    final loginPage = MaterialApp(home: LoginPage());
+    await tester.pumpWidget(loginPage);
+  }
+
   testWidgets("Should load with initial state correct",
       (WidgetTester tester) async {
     //arrange
-    final loginPage = MaterialApp(home: LoginPage());
-    await tester.pumpWidget(loginPage);
+    await loadPage(tester);
 
     final emailTextChildren = find.descendant(
         of: find.bySemanticsLabel("Email"), matching: find.byType(Text));
@@ -26,5 +30,12 @@ void main() {
     final button = tester.widget<RaisedButton>(find.byType(RaisedButton));
 
     expect(button.onPressed, null);
+  });
+
+  //validate form
+  testWidgets("should call validate with correct values",
+      (WidgetTester tester) async {
+    //arrange
+    await loadPage(tester);
   });
 }
