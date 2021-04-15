@@ -10,6 +10,7 @@ void main() {
   StreamLoginPresenter sut;
   ValidationSpy validation;
   String email;
+  String password;
   PostExpectation mockValidationCall(String field) => when(validation.validate(
       field: field == null ? anyNamed('field') : field,
       value: anyNamed('value')));
@@ -21,36 +22,45 @@ void main() {
     validation = ValidationSpy();
     sut = StreamLoginPresenter(validation: validation);
     email = faker.internet.email();
+    password = faker.internet.password();
     mockValidation();
   });
 
-  test("should call validation with correct email", () {
-    sut.validateEmail(email);
-    verify(validation.validate(field: "email", value: email)).called(1);
-  });
+  group("email validation", () {
+    test("should call validation with correct email", () {
+      sut.validateEmail(email);
+      verify(validation.validate(field: "email", value: email)).called(1);
+    });
 
-  test("should emit email error if validation fails", () {
-    mockValidation(value: 'error');
-    sut.emailErrorStream
-        .listen(expectAsync1((error) => expect(error, 'error')));
-    sut.validateEmail(email);
-    sut.validateEmail(email);
+    test("should emit email error if validation fails", () {
+      mockValidation(value: 'error');
+      sut.emailErrorStream
+          .listen(expectAsync1((error) => expect(error, 'error')));
+      sut.validateEmail(email);
+      sut.validateEmail(email);
+    });
+    test("should emit isFormValid if validation fails", () {
+      //mockando error
+      mockValidation(value: 'error');
+      sut.emailErrorStream
+          .listen(expectAsync1((error) => expect(error, 'error')));
+      sut.isFormValidStream
+          .listen(expectAsync1((isValid) => expect(isValid, false)));
+      sut.validateEmail(email);
+      sut.validateEmail(email);
+    });
+    test("should emit null if validation succeed", () {
+      sut.emailErrorStream.listen(expectAsync1((error) => expect(error, null)));
+      sut.isFormValidStream
+          .listen(expectAsync1((isValid) => expect(isValid, false)));
+      sut.validateEmail(email);
+      sut.validateEmail(email);
+    });
   });
-  test("should emit isFormValid if validation fails", () {
-    //mockando error
-    mockValidation(value: 'error');
-    sut.emailErrorStream
-        .listen(expectAsync1((error) => expect(error, 'error')));
-    sut.isFormValidStream
-        .listen(expectAsync1((isValid) => expect(isValid, false)));
-    sut.validateEmail(email);
-    sut.validateEmail(email);
-  });
-  test("should emit null if validation succeed", () {
-    sut.emailErrorStream.listen(expectAsync1((error) => expect(error, null)));
-    sut.isFormValidStream
-        .listen(expectAsync1((isValid) => expect(isValid, false)));
-    sut.validateEmail(email);
-    sut.validateEmail(email);
+  group("password validation", () {
+    test("should call validation with correct password", () {
+      sut.validatePassword(password);
+      verify(validation.validate(field: "password", value: password)).called(1);
+    });
   });
 }
