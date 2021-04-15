@@ -17,6 +17,6 @@
 14. ✅ Notificar o isLoadingStream como true antes de chamar o authentication
 15. ✅ Notificar o isLoadingStream com false no fim do authentication
 16. ✅ Notificar o mainErrorStream caso o authentication retorne um DomainError
-17. Fechar todos os streams no dispose
+17. ✅ Fechar todos os streams no dispose
 18. 🛑 Gravar o account no cache em caso de Sucesso
 19. 🛑 Levar o usuário para tela de enquetes em caso de sucesso.
