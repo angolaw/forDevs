@@ -1,4 +1,5 @@
 import 'package:faker/faker.dart';
+import 'package:fordev/domain/entities/entities.dart';
 import 'package:fordev/domain/usecases/authentication.dart';
 import 'package:fordev/presentation/presenter/presenter.dart';
 import 'package:fordev/presentation/protocols/protocols.dart';
@@ -22,6 +23,12 @@ void main() {
     mockValidationCall(field).thenReturn(value);
   }
 
+  PostExpectation mockAuthenticationCall() => when(authentication.auth(any));
+  void mockAuthentication() {
+    mockAuthenticationCall()
+        .thenAnswer((_) async => AccountEntity(token: faker.guid.guid()));
+  }
+
   setUp(() {
     validation = ValidationSpy();
     authentication = AuthenticationSpy();
@@ -30,6 +37,7 @@ void main() {
     email = faker.internet.email();
     password = faker.internet.password();
     mockValidation();
+    mockAuthentication();
   });
 
   group("email validation", () {
@@ -118,9 +126,17 @@ void main() {
       sut.validateEmail(email);
       sut.validatePassword(password);
       await sut.auth();
-      verify(authentication.auth(
-              params: AuthenticationParams(email: email, secret: password)))
+      verify(authentication
+              .auth(AuthenticationParams(email: email, secret: password)))
           .called(1);
+    });
+    test("should emit correct events on Authentication success", () async {
+      sut.validateEmail(email);
+      sut.validatePassword(password);
+
+      expectLater(sut.isLoadingStream, emitsInOrder([true, false]));
+
+      await sut.auth();
     });
   });
 }
