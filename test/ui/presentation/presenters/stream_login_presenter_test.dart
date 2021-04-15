@@ -95,5 +95,16 @@ void main() {
       sut.validateEmail(email);
       sut.validatePassword(password);
     });
+    test("should emit true in isValidStream if both fields are validated",
+        () async {
+      sut.emailErrorStream.listen(expectAsync1((error) => expect(error, null)));
+      sut.passwordErrorStream
+          .listen(expectAsync1((error) => expect(error, null)));
+
+      expectLater(sut.isFormValidStream, emitsInAnyOrder([false, true]));
+      sut.validateEmail(email);
+      await Future.delayed(Duration.zero);
+      sut.validatePassword(password);
+    });
   });
 }
