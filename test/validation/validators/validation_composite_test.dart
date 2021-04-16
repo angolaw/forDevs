@@ -1,25 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fordev/presentation/protocols/protocols.dart';
 import 'package:fordev/validation/protocols/protocols.dart';
-import 'package:meta/meta.dart';
+import 'package:fordev/validation/validators/validation_composite.dart';
 import 'package:mockito/mockito.dart';
-
-class ValidationComposite implements Validation {
-  final List<FieldValidation> validations;
-
-  ValidationComposite({this.validations});
-  @override
-  String validate({@required String field, @required String value}) {
-    String error;
-    for (final validation in validations) {
-      error = validation.validate(value);
-      if (error?.isNotEmpty == true) {
-        return error;
-      }
-    }
-    return error;
-  }
-}
 
 class FieldValidationSpy extends Mock implements FieldValidation {}
 
@@ -37,7 +19,7 @@ void main() {
   }
 
   void mockValidation3(String error) {
-    when(validation1.validate(any)).thenReturn(error);
+    when(validation3.validate(any)).thenReturn(error);
   }
 
   setUp(() {
@@ -59,10 +41,11 @@ void main() {
     expect(error, null);
   });
   test('should the first error of the field', () {
-    mockValidation1('error_1');
+    mockValidation1("error_1");
     mockValidation2("error_2");
     mockValidation3("error_3");
     final error = sut.validate(field: 'any_field', value: 'any_value');
+    print("Error $error");
     expect(error, "error_1");
   });
 }
