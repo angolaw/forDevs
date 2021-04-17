@@ -4,7 +4,6 @@ import 'package:fordev/domain/helpers/domain_error.dart';
 import 'package:fordev/domain/usecases/authentication.dart';
 import 'package:fordev/ui/pages/pages.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:meta/meta.dart';
 
 import '../protocols/validation.dart';
