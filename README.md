@@ -11,6 +11,7 @@ O objetivo do treinamento é mostrar como criar um aplicativo com Flutter usando
 
 > ## Princípios
 
+>>>>>>> 272453b2d3af94c9c9ccfa6f8afe39306d91a0b8
 * Single Responsibility Principle (SRP)
 * Open Closed Principle (OCP)
 * Liskov Substitution Principle (LSP)
