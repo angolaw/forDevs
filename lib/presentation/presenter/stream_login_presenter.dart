@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:fordev/domain/helpers/domain_error.dart';
 import 'package:fordev/domain/usecases/authentication.dart';
+import 'package:fordev/ui/pages/pages.dart';
 import 'package:meta/meta.dart';
 
 import '../protocols/validation.dart';
@@ -20,7 +21,7 @@ class LoginState {
   bool isLoading = false;
 }
 
-class StreamLoginPresenter {
+class StreamLoginPresenter implements LoginPresenter {
   final Validation validation;
   final Authentication authentication;
   StreamLoginPresenter(
