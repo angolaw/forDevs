@@ -42,36 +42,46 @@ class _LoginPageState extends State<LoginPage> {
               hideLoading(context);
             }
           });
-          return SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                LoginHeader(),
-                Headline1(text: "Login"),
-                Padding(
-                  padding: const EdgeInsets.all(32),
-                  child: Provider<LoginPresenter>(
-                    create: (_) => widget.presenter,
-                    child: Form(
-                      child: Column(
-                        children: [
-                          EmailInput(),
-                          Padding(
-                            padding: EdgeInsets.only(top: 8.0, bottom: 32),
-                            child: PasswordInput(),
-                          ),
-                          LoginButton(),
-                          CreateAccountButton(),
-                        ],
+          return GestureDetector(
+            onTap: hideKeyboard,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  LoginHeader(),
+                  Headline1(text: "Login"),
+                  Padding(
+                    padding: const EdgeInsets.all(32),
+                    child: Provider<LoginPresenter>(
+                      create: (_) => widget.presenter,
+                      child: Form(
+                        child: Column(
+                          children: [
+                            EmailInput(),
+                            Padding(
+                              padding: EdgeInsets.only(top: 8.0, bottom: 32),
+                              child: PasswordInput(),
+                            ),
+                            LoginButton(),
+                            CreateAccountButton(),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                )
-              ],
+                  )
+                ],
+              ),
             ),
           );
         },
       ),
     );
+  }
+
+  void hideKeyboard() {
+    final currentFocus = FocusScope.of(context);
+    if (!currentFocus.hasPrimaryFocus) {
+      currentFocus.unfocus();
+    }
   }
 }
