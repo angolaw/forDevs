@@ -37,15 +37,19 @@ void main() {
         LocalSaveCurrentAccount(saveSecureCacheStorage: saveSecureCacheStorage);
     account = AccountEntity(token: faker.guid.guid());
   });
+  void mockError() {
+    when(saveSecureCacheStorage.save(
+            key: anyNamed('key'), value: anyNamed('value')))
+        .thenThrow(Exception());
+  }
+
   test('should call SaveSecureCacheStorage with correct values', () async {
     await sut.save(account);
     verify(saveSecureCacheStorage.save(key: 'token', value: account.token));
   });
   test('should throw UnexpectedError if SaveSecureCacheStorage throws',
       () async {
-    when(saveSecureCacheStorage.save(
-            key: anyNamed('key'), value: anyNamed('value')))
-        .thenThrow(Exception());
+    mockError();
     final future = sut.save(account);
     expect(future, throwsA(DomainError.unexpected));
   });
