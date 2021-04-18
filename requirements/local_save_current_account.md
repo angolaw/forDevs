@@ -4,4 +4,4 @@
 1. ✅ Sistema grava o token de acesso do usuário no cache de forma segura
 
 ## Exceção
-1. Sistema retorna uma mensagem de erro inesperado.
+1. ✅ Sistema retorna uma mensagem de erro inesperado.
