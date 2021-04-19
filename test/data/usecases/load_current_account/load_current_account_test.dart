@@ -23,22 +23,21 @@ class FetchSecureCacheStorageSpy extends Mock
 
 void main() {
   AccountEntity account;
-
+  FetchSecureCacheStorage fetchSecureCacheStorage;
+  LocalLoadCurrentAccount sut;
   setUp(() {
     account = AccountEntity(token: faker.guid.guid());
-  });
-  test('should call FetchSecureCacheStorage with correct value', () async {
-    final fetchSecureCacheStorage = FetchSecureCacheStorageSpy();
-    final sut = LocalLoadCurrentAccount(
+    fetchSecureCacheStorage = FetchSecureCacheStorageSpy();
+    sut = LocalLoadCurrentAccount(
         fetchSecureCacheStorage: fetchSecureCacheStorage);
+  });
+
+  test('should call FetchSecureCacheStorage with correct value', () async {
     await sut.load();
     verify(fetchSecureCacheStorage.fetchSecure('token'));
   });
 
   test('should retrieve account data of given token', () async {
-    final fetchSecureCacheStorage = FetchSecureCacheStorageSpy();
-    final sut = LocalLoadCurrentAccount(
-        fetchSecureCacheStorage: fetchSecureCacheStorage);
     await sut.load();
     verify(fetchSecureCacheStorage.fetchSecure('token'));
   });
