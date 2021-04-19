@@ -1,5 +1,6 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fordev/data/cache/cache.dart';
+import 'package:fordev/domain/helpers/helpers.dart';
 import 'package:meta/meta.dart';
 
 class LocalStorageAdapter
@@ -15,7 +16,11 @@ class LocalStorageAdapter
 
   @override
   Future<String> fetchSecure(String key) async {
-    final value = await secureStorage.read(key: key);
-    return value;
+    try {
+      final value = await secureStorage.read(key: key);
+      return value;
+    } catch (error) {
+      throw DomainError.unexpected;
+    }
   }
 }

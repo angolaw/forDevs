@@ -1,5 +1,6 @@
 import 'package:faker/faker.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:fordev/domain/helpers/helpers.dart';
 import 'package:fordev/infra/cache/cache.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
@@ -44,6 +45,10 @@ void main() {
           .thenAnswer((_) async => value);
     }
 
+    void mockFetchSecureError() {
+      when(secureStorage.read(key: anyNamed('key'))).thenThrow(Exception());
+    }
+
     setUp(() {
       mockFetchSecure();
     });
@@ -55,6 +60,11 @@ void main() {
     test('should return correct value on success', () async {
       final fetchedValue = await sut.fetchSecure(key);
       expect(fetchedValue, value);
+    });
+    test('should throw if fetchSecure throws', () async {
+      mockFetchSecureError();
+      final future = sut.fetchSecure(key);
+      expect(future, throwsA(DomainError.unexpected));
     });
   });
 }
