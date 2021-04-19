@@ -251,5 +251,16 @@ void main() {
 
       expect(find.text('fake page'), findsOneWidget);
     });
+    testWidgets("should not load page on invalid parameters",
+        (WidgetTester tester) async {
+      await loadPage(tester);
+      navigateToController.add('');
+      await tester.pump();
+      expect(Get.currentRoute, '/login');
+
+      navigateToController.add(null);
+      await tester.pump();
+      expect(Get.currentRoute, '/login');
+    });
   });
 }

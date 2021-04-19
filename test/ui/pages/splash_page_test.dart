@@ -19,7 +19,7 @@ class SplashPage extends StatelessWidget {
         body: Builder(
           builder: (context) {
             presenter.navigateToStream.listen((page) {
-              if(page?.isNotEmpty == true){
+              if (page?.isNotEmpty == true) {
                 Get.offAllNamed(page);
               }
             });
@@ -82,5 +82,16 @@ void main() {
     await tester.pumpAndSettle();
     expect(Get.currentRoute, '/any_route');
     expect(find.text('fake page'), findsOneWidget);
+  });
+  testWidgets("should not load page on invalid parameters",
+      (WidgetTester tester) async {
+    await loadPage(tester);
+    navigateToController.add('');
+    await tester.pump();
+    expect(Get.currentRoute, '/');
+
+    navigateToController.add(null);
+    await tester.pump();
+    expect(Get.currentRoute, '/');
   });
 }
