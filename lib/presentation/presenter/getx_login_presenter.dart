@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:fordev/domain/helpers/domain_error.dart';
 import 'package:fordev/domain/usecases/authentication.dart';
+import 'package:fordev/domain/usecases/save_current_account.dart';
 import 'package:fordev/ui/pages/pages.dart';
 import 'package:get/get.dart';
 import 'package:meta/meta.dart';
@@ -11,12 +12,15 @@ import '../protocols/validation.dart';
 class GetXLoginPresenter extends GetxController implements LoginPresenter {
   final Validation validation;
   final Authentication authentication;
+  final SaveCurrentAccount saveCurrentAccount;
 
   String _email;
   String _password;
 
   GetXLoginPresenter(
-      {@required this.validation, @required this.authentication});
+      {@required this.validation,
+      @required this.authentication,
+      @required this.saveCurrentAccount});
 
   var _emailError = RxString('');
   var _passwordError = RxString('');
@@ -46,8 +50,9 @@ class GetXLoginPresenter extends GetxController implements LoginPresenter {
   Future<void> auth() async {
     _isLoading.value = true;
     try {
-      await authentication
+      final account = await authentication
           .auth(AuthenticationParams(email: _email, secret: _password));
+      await saveCurrentAccount.save(account);
     } on DomainError catch (error) {
       _mainError.value = error.description;
     }
