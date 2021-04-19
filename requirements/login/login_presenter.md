@@ -20,4 +20,4 @@
 17. ✅ Fechar todos os streams no dispose
 18. ✅ Gravar o account no cache em caso de Sucesso
 19. ✅ Notificar o mainErrorStream caso o SaveCurrentAccount retorne erro
-20. 🛑 Levar o usuário para tela de Enquetes em caso de sucesso.
+20. ✅ Levar o usuário para tela de Enquetes em caso de sucesso.
