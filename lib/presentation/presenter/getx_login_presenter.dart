@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:fordev/domain/helpers/domain_error.dart';
 import 'package:fordev/domain/usecases/authentication.dart';
 import 'package:fordev/domain/usecases/save_current_account.dart';
+import 'package:fordev/ui/helpers/helpers.dart';
 import 'package:fordev/ui/pages/pages.dart';
 import 'package:get/get.dart';
 import 'package:meta/meta.dart';
@@ -22,36 +23,42 @@ class GetXLoginPresenter extends GetxController implements LoginPresenter {
       @required this.authentication,
       @required this.saveCurrentAccount});
 
-  var _emailError = RxString('');
-  var _passwordError = RxString('');
-  var _mainError = RxString('');
+  var _emailError = Rx<UIError>(UIError.unexpected);
+  var _passwordError = Rx<UIError>(UIError.unexpected);
+  var _mainError = Rx<UIError>(UIError.unexpected);
   var _isFormValid = false.obs;
   var _isLoading = false.obs;
   var _navigateTo = RxString('');
 
-  Stream<String> get emailErrorStream => _emailError?.stream;
-  Stream<String> get passwordErrorStream => _passwordError?.stream;
+  Stream<UIError> get emailErrorStream => _emailError?.stream;
+  Stream<UIError> get passwordErrorStream => _passwordError?.stream;
   Stream<bool> get isFormValidStream => _isFormValid?.stream;
   Stream<bool> get isLoadingStream => _isLoading?.stream;
-  Stream<String> get mainErrorStream => _mainError?.stream;
+  Stream<UIError> get mainErrorStream => _mainError?.stream;
   Stream<String> get navigateToStream => _navigateTo?.stream;
 
   void validateEmail(String email) {
     _email = email;
-    _emailError.value = validation.validate(field: 'email', value: email);
+    _emailError.value = _validateField(field: 'password', value: email);
     _validateForm();
   }
 
   void validatePassword(String password) {
     _password = password;
-    _passwordError.value =
-        validation.validate(field: 'password', value: password);
+    _passwordError.value = _validateField(field: 'password', value: password);
     _validateForm();
   }
 
   UIError _validateField({String field, String value}) {
     final error = validation.validate(field: field, value: value);
-    return error;
+    switch (error) {
+      case ValidationError.invalidField:
+        return UIError.invalidField;
+      case ValidationError.requiredField:
+        return UIError.requiredField;
+      default:
+        return null;
+    }
   }
 
   Future<void> auth() async {
@@ -63,7 +70,13 @@ class GetXLoginPresenter extends GetxController implements LoginPresenter {
       await saveCurrentAccount.save(account);
       _navigateTo.value = '/surveys';
     } on DomainError catch (error) {
-      _mainError.value = error.description;
+      switch (error) {
+        case DomainError.invalidCredentials:
+          _mainError.value = UIError.invalidCredentials;
+          break;
+        default:
+          _mainError.value = UIError.unexpected;
+      }
       _isLoading.value = false;
     }
   }

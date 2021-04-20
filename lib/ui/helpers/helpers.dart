@@ -1,1 +1,1 @@
-export 'ui_error.dart';
+export 'errors/ui_error.dart';
