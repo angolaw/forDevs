@@ -8,7 +8,7 @@ extension UIErrorExtension on UIError {
       case UIError.invalidCredentials:
         return R.strings.invalidCredentials;
       case UIError.unexpected:
-        return;
+        return R.strings.unexpected;
       case UIError.requiredField:
         return R.strings.requiredField;
       case UIError.invalidField:

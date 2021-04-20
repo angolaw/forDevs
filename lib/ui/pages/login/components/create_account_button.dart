@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fordev/ui/helpers/i18n/i18n.dart';
+import 'package:fordev/ui/helpers/helpers.dart';
 
 class CreateAccountButton extends StatelessWidget {
   const CreateAccountButton({
