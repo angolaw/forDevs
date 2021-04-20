@@ -8,9 +8,9 @@ extension UIErrorExtension on UIError {
       case UIError.unexpected:
         return 'Algo errado aconteceu. Tente novamente';
       case UIError.requiredField:
-        return 'Campo obrigatorio';
+        return 'Campo obrigatório';
       case UIError.invalidField:
-        return 'Campo invalido';
+        return 'Campo inválido';
       default:
         return '';
     }

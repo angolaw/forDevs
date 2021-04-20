@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fordev/presentation/protocols/protocols.dart';
 import 'package:fordev/validation/validators/validators.dart';
 
 void main() {
@@ -20,6 +21,6 @@ void main() {
   });
   test('should return error if email is invalid', () {
     final error = sut.validate('wsadevv.abc');
-    expect(error, "Campo invalido");
+    expect(error, ValidationError.invalidField);
   });
 }
