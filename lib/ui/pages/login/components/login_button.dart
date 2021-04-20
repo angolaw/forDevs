@@ -12,8 +12,8 @@ class LoginButton extends StatelessWidget {
         builder: (context, snapshot) {
           return RaisedButton(
               onPressed: snapshot.data == true
-                  ? () {
-                      presenter.auth();
+                  ? () async {
+                      await presenter.auth();
                     }
                   : null,
               child: Text("Entrar".toUpperCase()));
