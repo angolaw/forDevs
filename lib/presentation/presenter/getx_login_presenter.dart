@@ -49,6 +49,11 @@ class GetXLoginPresenter extends GetxController implements LoginPresenter {
     _validateForm();
   }
 
+  UIError _validateField({String field, String value}) {
+    final error = validation.validate(field: field, value: value);
+    return error;
+  }
+
   Future<void> auth() async {
     try {
       _isLoading.value = true;
