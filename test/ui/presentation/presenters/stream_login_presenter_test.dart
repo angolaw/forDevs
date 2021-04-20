@@ -2,7 +2,7 @@ import 'package:faker/faker.dart';
 import 'package:fordev/domain/entities/entities.dart';
 import 'package:fordev/domain/helpers/domain_error.dart';
 import 'package:fordev/domain/usecases/authentication.dart';
-import 'package:fordev/presentation/presenter/presenter.dart';
+import 'package:fordev/presentation/presenter/stream_login_presenter.dart';
 import 'package:fordev/presentation/protocols/protocols.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';

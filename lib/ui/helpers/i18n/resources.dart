@@ -1,5 +1,8 @@
 import 'package:flutter/widgets.dart';
-import 'package:fordev/utils/i18n/strings/strings.dart';
+
+import 'strings/en_us.dart';
+import 'strings/pt_br.dart';
+import 'strings/translations.dart';
 
 class R {
   static Translations strings = PtBr();
