@@ -56,7 +56,7 @@ class StreamLoginPresenter implements LoginPresenter {
   void validatePassword(String password) {
     _state.password = password;
     _state.passwordError =
-        validation.validate(field: 'password', value: password);
+       _validateField(field: "password",value: password);
     _update();
   }
 
