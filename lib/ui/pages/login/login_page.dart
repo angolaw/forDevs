@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fordev/ui/helpers/errors/errors.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
@@ -31,9 +32,9 @@ class LoginPage extends StatelessWidget {
               hideLoading(context);
             }
           });
-          presenter.mainErrorStream.listen((hasMainError) {
+          presenter.mainErrorStream.listen((UIError hasMainError) {
             if (hasMainError != null) {
-              showSnackBar(context, hasMainError);
+              showSnackBar(context, hasMainError.description);
             } else {
               hideLoading(context);
             }
