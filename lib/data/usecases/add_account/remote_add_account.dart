@@ -16,9 +16,14 @@ class RemoteAddAccount implements AddAccount {
       final body = RemoteAddAccountParams.fromDomain(params).toJson();
       await httpClient.request(url: url, method: 'post', body: body);
     } on HttpError catch (e) {
-      throw e == HttpError.unauthorized
-          ? DomainError.invalidCredentials
-          : DomainError.unexpected;
+      switch (e) {
+        case HttpError.forbidden:
+          throw DomainError.emailInUse;
+        case HttpError.unauthorized:
+          throw DomainError.invalidCredentials;
+        default:
+          throw DomainError.unexpected;
+      }
     }
     return null;
   }

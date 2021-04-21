@@ -20,5 +20,5 @@
 1. ✅ Sistema retorna uma mensagem de erro inesperado
 
 ## Exceção - Email em uso
-1. Sistema retorna uma mensagem de erro informando que o email já está em uso
+1. ✅ Sistema retorna uma mensagem de erro informando que o email já está em uso
 
