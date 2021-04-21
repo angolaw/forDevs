@@ -1,4 +1,5 @@
 import 'package:fordev/data/http/http.dart';
+import 'package:fordev/data/models/models.dart';
 import 'package:fordev/domain/entities/entities.dart';
 import 'package:fordev/domain/helpers/helpers.dart';
 import 'package:fordev/domain/usecases/usecases.dart';
@@ -12,9 +13,12 @@ class RemoteAddAccount implements AddAccount {
 
   @override
   Future<AccountEntity> add(AddAccountParams params) async {
+    final body = RemoteAddAccountParams.fromDomain(params).toJson();
+
     try {
-      final body = RemoteAddAccountParams.fromDomain(params).toJson();
-      await httpClient.request(url: url, method: 'post', body: body);
+      final httpResponse =
+          await httpClient.request(url: url, method: 'post', body: body);
+      return RemoteAccountModel.fromJson(httpResponse).toEntity();
     } on HttpError catch (e) {
       switch (e) {
         case HttpError.forbidden:
