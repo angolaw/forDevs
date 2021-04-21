@@ -50,11 +50,26 @@ void main() {
         'name': params.name
       }));
     });
-    group("API test", () {
+    group("API test on HttpClient errors", () {
       test("Should throw UnexpectedError if HttpClient returns 400", () async {
         mockHttpError(HttpError.badRequest);
         final future = sut.add(params);
         expect(future, throwsA(DomainError.unexpected));
+      });
+      test("Should throw UnexpectedError if HttpClient returns 404", () async {
+        mockHttpError(HttpError.notFound);
+        final future = sut.add(params);
+        expect(future, throwsA(DomainError.unexpected));
+      });
+      test("Should throw UnexpectedError if HttpClient returns 500", () async {
+        mockHttpError(HttpError.serverError);
+        final future = sut.add(params);
+        expect(future, throwsA(DomainError.unexpected));
+      });
+      test("Should throw UnexpectedError if HttpClient returns 401", () async {
+        mockHttpError(HttpError.unauthorized);
+        final future = sut.add(params);
+        expect(future, throwsA(DomainError.invalidCredentials));
       });
     });
   });
