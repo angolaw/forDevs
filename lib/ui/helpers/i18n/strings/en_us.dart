@@ -24,4 +24,20 @@ class EnUs implements Translations {
   @override
   // TODO: implement unexpected
   String get unexpected => "Something went wrong. Please try again";
+
+  @override
+  // TODO: implement name
+  String get name => "Name";
+
+  @override
+  // TODO: implement password
+  String get password => "Password";
+
+  @override
+  // TODO: implement email
+  String get email => "Email";
+
+  @override
+  // TODO: implement confirmPassword
+  String get confirmPassword => "Confirm password";
 }
