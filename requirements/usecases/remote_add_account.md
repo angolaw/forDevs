@@ -11,7 +11,7 @@
 1. ✅ Sistema retorna uma mensagem de erro inesperado
 
 ## Exceção - Dados Inválidos
-1. Sistema retorna uma mensagem de erro inesperado
+1. ✅ Sistema retorna uma mensagem de erro inesperado
 
 ## Exceção - Resposta inválida
 1. Sistema retorna uma mensagem de erro inesperado
