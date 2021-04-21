@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:fordev/ui/helpers/helpers.dart';
 
-class NameInput extends StatelessWidget {
+class PasswordConfirmationInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       decoration: InputDecoration(
-        labelText: R.strings.name,
+        labelText: R.strings.confirmPassword,
+        errorText: null,
         icon: Icon(
-          Icons.person_outline,
+          Icons.lock,
           color: Theme.of(context).primaryColorLight,
         ),
       ),
-      keyboardType: TextInputType.name,
+      obscureText: true,
     );
   }
 }
