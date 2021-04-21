@@ -40,4 +40,8 @@ class EnUs implements Translations {
   @override
   // TODO: implement confirmPassword
   String get confirmPassword => "Confirm password";
+
+  @override
+  // TODO: implement login
+  String get login => "Login";
 }

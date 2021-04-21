@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fordev/ui/helpers/helpers.dart';
 
-class CreateAccountButton extends StatelessWidget {
-  const CreateAccountButton({
+class BackToLoginButton extends StatelessWidget {
+  const BackToLoginButton({
     Key key,
   }) : super(key: key);
 
@@ -10,7 +10,7 @@ class CreateAccountButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return FlatButton.icon(
         onPressed: () {},
-        icon: Icon(Icons.person),
-        label: Text(R.strings.addAccount));
+        icon: Icon(Icons.exit_to_app),
+        label: Text(R.strings.login));
   }
 }

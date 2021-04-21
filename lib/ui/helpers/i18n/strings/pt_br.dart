@@ -39,5 +39,9 @@ class PtBr implements Translations {
 
   @override
   // TODO: implement confirmPassword
-  String get confirmPassword => "Confirmar a senha";
+  String get confirmPassword => "Confirmar senha";
+
+  @override
+  // TODO: implement login
+  String get login => "Login";
 }

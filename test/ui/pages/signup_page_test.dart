@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fordev/ui/pages/pages.dart';
+import 'package:fordev/ui/pages/signup/signup.dart';
 import 'package:get/get.dart';
 import 'package:mockito/mockito.dart';
 
