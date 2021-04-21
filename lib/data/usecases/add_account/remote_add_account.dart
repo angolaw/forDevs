@@ -1,7 +1,11 @@
 import 'package:fordev/data/http/http.dart';
+<<<<<<< HEAD
 import 'package:fordev/data/models/models.dart';
 import 'package:fordev/domain/entities/entities.dart';
 import 'package:fordev/domain/helpers/helpers.dart';
+=======
+import 'package:fordev/domain/entities/entities.dart';
+>>>>>>> 4927877d61603d77be158b2e3c22d49a90c6260f
 import 'package:fordev/domain/usecases/usecases.dart';
 import 'package:meta/meta.dart';
 
@@ -14,6 +18,7 @@ class RemoteAddAccount implements AddAccount {
   @override
   Future<AccountEntity> add(AddAccountParams params) async {
     final body = RemoteAddAccountParams.fromDomain(params).toJson();
+<<<<<<< HEAD
 
     try {
       final httpResponse =
@@ -29,6 +34,9 @@ class RemoteAddAccount implements AddAccount {
           throw DomainError.unexpected;
       }
     }
+=======
+    await httpClient.request(url: url, method: 'post', body: body);
+>>>>>>> 4927877d61603d77be158b2e3c22d49a90c6260f
     return null;
   }
 }
