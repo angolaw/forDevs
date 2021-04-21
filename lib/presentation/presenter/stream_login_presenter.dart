@@ -1,8 +1,7 @@
 import 'dart:async';
 
-import 'package:fordev/domain/helpers/domain_error.dart';
-import 'package:fordev/domain/usecases/authentication.dart';
-import 'package:fordev/ui/helpers/errors/errors.dart';
+import 'package:fordev/domain/usecases/usecases.dart';
+import 'package:fordev/ui/helpers/helpers.dart';
 import 'package:fordev/ui/pages/pages.dart';
 import 'package:get/get.dart';
 import 'package:meta/meta.dart';
@@ -55,8 +54,7 @@ class StreamLoginPresenter implements LoginPresenter {
 
   void validatePassword(String password) {
     _state.password = password;
-    _state.passwordError =
-       _validateField(field: "password",value: password);
+    _state.passwordError = _validateField(field: "password", value: password);
     _update();
   }
 
@@ -78,7 +76,7 @@ class StreamLoginPresenter implements LoginPresenter {
     try {
       await authentication.auth(
           AuthenticationParams(email: _state.email, secret: _state.password));
-    } on DomainError catch (error) {
+    } on UIError catch (error) {
       _state.mainError = error.description;
     }
 
