@@ -4,6 +4,7 @@ import 'package:fordev/ui/components/headline1.dart';
 import 'package:fordev/ui/components/login_header.dart';
 import 'package:fordev/ui/helpers/helpers.dart';
 import 'package:fordev/ui/pages/signup/signup.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 import 'components/components.dart';
@@ -40,6 +41,11 @@ class SignUpPage extends StatelessWidget {
               showSnackBar(context, error.description);
             } else {
               hideLoading(context);
+            }
+          });
+          presenter.navigateToStream.listen((page) {
+            if (page?.isNotEmpty == true) {
+              Get.offAllNamed(page);
             }
           });
           return GestureDetector(

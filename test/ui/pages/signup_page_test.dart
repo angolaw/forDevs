@@ -74,6 +74,11 @@ void main() {
             page: () => SignUpPage(
                   presenter: presenter,
                 )),
+        GetPage(
+            name: "/any_route",
+            page: () => Scaffold(
+                  body: Text("fake page"),
+                )),
       ],
     );
     await tester.pumpWidget(signUpPage);
@@ -286,7 +291,7 @@ void main() {
 
       expect(find.text('main error'), findsNothing);
     });
-    testWidgets("should change page on authentication success",
+    testWidgets("should change page on signUp success",
         (WidgetTester tester) async {
       await loadPage(tester);
       navigateToController.add('/any_route');
