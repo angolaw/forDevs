@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:fordev/ui/components/headline1.dart';
 import 'package:fordev/ui/components/login_header.dart';
 import 'package:fordev/ui/helpers/helpers.dart';
+import 'package:fordev/ui/pages/signup/signup.dart';
 
 import 'components/components.dart';
 
 class SignUpPage extends StatelessWidget {
+  final SignUpPresenter presenter;
+
   SignUpPage({
     Key key,
+    this.presenter,
   }) : super(key: key);
 
   @override
