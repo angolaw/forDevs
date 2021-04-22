@@ -14,14 +14,14 @@ class PasswordConfirmationInput extends StatelessWidget {
           return TextFormField(
             onChanged: presenter.validatePasswordConfirmation,
             decoration: InputDecoration(
-              labelText: 'Confirmar a senha',
+              labelText: "Confirmar senha",
               errorText: snapshot.hasData ? snapshot.data.description : null,
               icon: Icon(
                 Icons.lock,
                 color: Theme.of(context).primaryColorLight,
               ),
             ),
-            keyboardType: TextInputType.emailAddress,
+            keyboardType: TextInputType.text,
           );
         });
   }

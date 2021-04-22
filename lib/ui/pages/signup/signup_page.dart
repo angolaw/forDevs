@@ -3,6 +3,7 @@ import 'package:fordev/ui/components/headline1.dart';
 import 'package:fordev/ui/components/login_header.dart';
 import 'package:fordev/ui/helpers/helpers.dart';
 import 'package:fordev/ui/pages/signup/signup.dart';
+import 'package:provider/provider.dart';
 
 import 'components/components.dart';
 
@@ -36,22 +37,25 @@ class SignUpPage extends StatelessWidget {
                   Headline1(text: R.strings.addAccount),
                   Padding(
                     padding: const EdgeInsets.all(32),
-                    child: Form(
-                      child: Column(
-                        children: [
-                          NameInput(),
-                          Padding(
-                            padding: EdgeInsets.symmetric(vertical: 8),
-                            child: EmailInput(),
-                          ),
-                          PasswordInput(),
-                          Padding(
-                            padding: EdgeInsets.only(top: 8.0, bottom: 32),
-                            child: PasswordConfirmationInput(),
-                          ),
-                          SignUpButton(),
-                          BackToLoginButton(),
-                        ],
+                    child: Provider<SignUpPresenter>(
+                      create: (_) => presenter,
+                      child: Form(
+                        child: Column(
+                          children: [
+                            NameInput(),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 8),
+                              child: EmailInput(),
+                            ),
+                            PasswordInput(),
+                            Padding(
+                              padding: EdgeInsets.only(top: 8.0, bottom: 32),
+                              child: PasswordConfirmationInput(),
+                            ),
+                            SignUpButton(),
+                            BackToLoginButton(),
+                          ],
+                        ),
                       ),
                     ),
                   ),

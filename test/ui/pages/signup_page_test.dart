@@ -21,7 +21,7 @@ void main() {
     emailErrorController = StreamController<UIError>();
     passwordErrorController = StreamController<UIError>();
     nameErrorController = StreamController<UIError>();
-    passwordErrorController = StreamController<UIError>();
+    passwordConfirmationErrorController = StreamController<UIError>();
   }
 
   void mockStreams() {
@@ -108,12 +108,13 @@ void main() {
       //arrange
       await loadPage(tester);
 
-      final email = faker.internet.email();
-      await tester.enterText(find.bySemanticsLabel("Email"), email);
-      verify(presenter.validateEmail(email));
       final name = faker.person.name();
       await tester.enterText(find.bySemanticsLabel("Nome"), name);
       verify(presenter.validateName(name));
+
+      final email = faker.internet.email();
+      await tester.enterText(find.bySemanticsLabel("Email"), email);
+      verify(presenter.validateEmail(email));
 
       final password = faker.internet.password();
       await tester.enterText(find.bySemanticsLabel("Senha"), password);
