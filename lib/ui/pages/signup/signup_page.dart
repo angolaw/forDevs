@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fordev/ui/components/components.dart';
 import 'package:fordev/ui/components/headline1.dart';
 import 'package:fordev/ui/components/login_header.dart';
 import 'package:fordev/ui/helpers/helpers.dart';
@@ -27,6 +28,13 @@ class SignUpPage extends StatelessWidget {
     return Scaffold(
       body: Builder(
         builder: (context) {
+          presenter.isLoadingStream.listen((isLoading) {
+            if(isLoading) {
+              showLoading(context, "Aguarde");
+            }else{
+              hideLoading(context);
+            }
+          });
           return GestureDetector(
             onTap: hideKeyboard,
             child: SingleChildScrollView(
