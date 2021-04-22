@@ -37,7 +37,7 @@ class SignUpPage extends StatelessWidget {
                   Headline1(text: R.strings.addAccount),
                   Padding(
                     padding: const EdgeInsets.all(32),
-                    child: Provider<SignUpPresenter>(
+                    child: Provider(
                       create: (_) => presenter,
                       child: Form(
                         child: Column(
