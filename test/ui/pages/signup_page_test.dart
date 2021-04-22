@@ -133,4 +133,22 @@ void main() {
       expect(emailTextChildren, findsOneWidget);
     });
   });
+
+  group("password test", () {
+    testWidgets("should present password error if email is invalid",
+        (WidgetTester tester) async {
+      await loadPage(tester);
+      passwordErrorController.add(UIError.invalidField);
+      await tester.pump();
+      expect(find.text('Campo inválido'), findsOneWidget);
+      passwordErrorController.add(UIError.requiredField);
+      await tester.pump();
+      expect(find.text('Campo obrigatório'), findsOneWidget);
+      passwordErrorController.add(null);
+      await tester.pump();
+      final passwordTextChildren = find.descendant(
+          of: find.bySemanticsLabel('Senha'), matching: find.byType(Text));
+      expect(passwordTextChildren, findsOneWidget);
+    });
+  });
 }
