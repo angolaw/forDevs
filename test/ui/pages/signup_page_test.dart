@@ -181,9 +181,9 @@ void main() {
       expect(find.text('Campo obrigatório'), findsOneWidget);
       nameErrorController.add(null);
       await tester.pump();
-      final passwordTextChildren = find.descendant(
+      final nameTextChildren = find.descendant(
           of: find.bySemanticsLabel('Nome'), matching: find.byType(Text));
-      expect(passwordTextChildren, findsOneWidget);
+      expect(nameTextChildren, findsOneWidget);
     });
   });
 }
