@@ -13,7 +13,7 @@ class SignUpButton extends StatelessWidget {
           return RaisedButton(
               onPressed: snapshot.data == true
                   ? () {
-                      //do presenter magic
+                      presenter.signUp();
                     }
                   : null,
               child: Text(R.strings.addAccount.toUpperCase()));
