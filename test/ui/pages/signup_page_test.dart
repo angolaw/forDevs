@@ -306,11 +306,11 @@ void main() {
       await loadPage(tester);
       navigateToController.add('');
       await tester.pump();
-      expect(Get.currentRoute, '/login');
+      expect(Get.currentRoute, '/signup');
 
       navigateToController.add(null);
       await tester.pump();
-      expect(Get.currentRoute, '/login');
+      expect(Get.currentRoute, '/signup');
     });
   });
 }
