@@ -190,8 +190,9 @@ void main() {
         (WidgetTester tester) async {
       await loadPage(tester);
       isFormValidController.add(true);
-      await tester.pump();
-      await tester.tap(find.byType(RaisedButton));
+      final button = find.byType(RaisedButton);
+      await tester.ensureVisible(button);
+      await tester.tap(button);
       await tester.pump();
 
       verify(presenter.auth()).called(1);
@@ -200,8 +201,9 @@ void main() {
         (WidgetTester tester) async {
       await loadPage(tester);
       isLoadingController.add(true);
-      await tester.pump();
-      await tester.tap(find.byType(RaisedButton));
+      final button = find.byType(RaisedButton);
+      await tester.ensureVisible(button);
+      await tester.tap(button);
       await tester.pump();
 
       expect(find.byType(CircularProgressIndicator), findsOneWidget);

@@ -122,6 +122,7 @@ void main() {
     final password = faker.internet.password();
     await tester.enterText(find.bySemanticsLabel('Senha'), password);
     verify(presenter.validatePassword(password)).called(1);
+
     final confirmationPassword = faker.internet.password();
     await tester.enterText(
         find.bySemanticsLabel('Confirmar senha'), confirmationPassword);
@@ -226,6 +227,16 @@ void main() {
       await tester.pump();
 
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
+    });
+    testWidgets("should hide loading on form submit",
+        (WidgetTester tester) async {
+      await loadPage(tester);
+      isLoadingController.add(false);
+      await tester.pump();
+      await tester.tap(find.byType(RaisedButton));
+      await tester.pump();
+
+      expect(find.byType(CircularProgressIndicator), findsNothing);
     });
     testWidgets("should call signup on form submit",
         (WidgetTester tester) async {
