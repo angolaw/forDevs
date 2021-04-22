@@ -44,4 +44,8 @@ class PtBr implements Translations {
   @override
   // TODO: implement login
   String get login => "Login";
+
+  @override
+  // TODO: implement emailInUse
+  String get emailInUse => "O email já está em uso";
 }

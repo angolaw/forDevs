@@ -29,9 +29,16 @@ class SignUpPage extends StatelessWidget {
       body: Builder(
         builder: (context) {
           presenter.isLoadingStream.listen((isLoading) {
-            if(isLoading) {
+            if (isLoading) {
               showLoading(context, "Aguarde");
-            }else{
+            } else {
+              hideLoading(context);
+            }
+          });
+          presenter.mainErrorStream.listen((UIError error) {
+            if (error != null) {
+              showSnackBar(context, error.description);
+            } else {
               hideLoading(context);
             }
           });

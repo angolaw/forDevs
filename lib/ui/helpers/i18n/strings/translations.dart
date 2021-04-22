@@ -10,4 +10,5 @@ abstract class Translations {
   String get password;
   String get confirmPassword;
   String get login;
+  String get emailInUse;
 }

@@ -16,6 +16,7 @@ void main() {
   StreamController<UIError> emailErrorController;
   StreamController<UIError> passwordErrorController;
   StreamController<UIError> passwordConfirmationErrorController;
+  StreamController<UIError> mainErrorController;
   StreamController<bool> isFormValidController;
   StreamController<bool> isLoadingController;
 
@@ -24,6 +25,7 @@ void main() {
     emailErrorController = StreamController<UIError>();
     passwordErrorController = StreamController<UIError>();
     passwordConfirmationErrorController = StreamController<UIError>();
+    mainErrorController = StreamController<UIError>();
     isFormValidController = StreamController<bool>();
     isLoadingController = StreamController<bool>();
   }
@@ -37,6 +39,8 @@ void main() {
         .thenAnswer((_) => passwordErrorController.stream);
     when(presenter.passwordConfirmationErrorStream)
         .thenAnswer((_) => passwordConfirmationErrorController.stream);
+    when(presenter.mainErrorStream)
+        .thenAnswer((_) => mainErrorController.stream);
     when(presenter.isFormValidStream)
         .thenAnswer((_) => isFormValidController.stream);
     when(presenter.isLoadingStream)
@@ -50,6 +54,7 @@ void main() {
     passwordConfirmationErrorController.close();
     isFormValidController.close();
     isLoadingController.close();
+    mainErrorController.close();
   }
 
   Future<void> loadPage(WidgetTester tester) async {
@@ -249,6 +254,23 @@ void main() {
       await tester.pump();
 
       verify(presenter.signUp()).called(1);
+    });
+
+    testWidgets("should present error on signUp failure",
+        (WidgetTester tester) async {
+      await loadPage(tester);
+      mainErrorController.add(UIError.emailInUse);
+      await tester.pump();
+      expect(find.text("O email já está em uso"), findsOneWidget);
+    });
+
+    testWidgets("should present error on signUp throws",
+        (WidgetTester tester) async {
+      await loadPage(tester);
+      mainErrorController.add(UIError.unexpected);
+      await tester.pump();
+      expect(
+          find.text("Algo errado aconteceu. Tente novamente"), findsOneWidget);
     });
   });
 }
