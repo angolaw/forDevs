@@ -16,12 +16,14 @@ void main() {
   StreamController<UIError> emailErrorController;
   StreamController<UIError> passwordErrorController;
   StreamController<UIError> passwordConfirmationErrorController;
+  StreamController<bool> isFormValidController;
 
   void initStreams() {
     nameErrorController = StreamController<UIError>();
     emailErrorController = StreamController<UIError>();
     passwordErrorController = StreamController<UIError>();
     passwordConfirmationErrorController = StreamController<UIError>();
+    isFormValidController = StreamController<bool>();
   }
 
   void mockStreams() {
@@ -33,6 +35,8 @@ void main() {
         .thenAnswer((_) => passwordErrorController.stream);
     when(presenter.passwordConfirmationErrorStream)
         .thenAnswer((_) => passwordConfirmationErrorController.stream);
+    when(presenter.isFormValidStream)
+        .thenAnswer((_) => isFormValidController.stream);
   }
 
   void closeStreams() {
@@ -40,6 +44,7 @@ void main() {
     emailErrorController.close();
     passwordErrorController.close();
     passwordConfirmationErrorController.close();
+    isFormValidController.close();
   }
 
   Future<void> loadPage(WidgetTester tester) async {
@@ -103,18 +108,20 @@ void main() {
 
     final name = faker.person.name();
     await tester.enterText(find.bySemanticsLabel('Nome'), name);
-    verify(presenter.validateName(name));
+    verify(presenter.validateName(name)).called(1);
 
     final email = faker.internet.email();
     await tester.enterText(find.bySemanticsLabel('Email'), email);
-    verify(presenter.validateEmail(email));
+    verify(presenter.validateEmail(email)).called(1);
 
     final password = faker.internet.password();
     await tester.enterText(find.bySemanticsLabel('Senha'), password);
-    verify(presenter.validatePassword(password));
-
-    await tester.enterText(find.bySemanticsLabel('Confirmar senha'), password);
-    verify(presenter.validatePasswordConfirmation(password));
+    verify(presenter.validatePassword(password)).called(1);
+    final confirmationPassword = faker.internet.password();
+    await tester.enterText(
+        find.bySemanticsLabel('Confirmar senha'), confirmationPassword);
+    verify(presenter.validatePasswordConfirmation(confirmationPassword))
+        .called(1);
   });
   group("email test", () {
     testWidgets("should present email error if email is invalid",
@@ -184,6 +191,24 @@ void main() {
       final nameTextChildren = find.descendant(
           of: find.bySemanticsLabel('Nome'), matching: find.byType(Text));
       expect(nameTextChildren, findsOneWidget);
+    });
+  });
+  group("button test", () {
+    testWidgets("should enable button if form is valid",
+        (WidgetTester tester) async {
+      await loadPage(tester);
+      isFormValidController.add(true);
+      await tester.pump();
+      final button = tester.widget<RaisedButton>(find.byType(RaisedButton));
+      expect(button.onPressed, isNotNull);
+    });
+    testWidgets("should disable button if form is invalid",
+        (WidgetTester tester) async {
+      await loadPage(tester);
+      isFormValidController.add(false);
+      await tester.pump();
+      final button = tester.widget<RaisedButton>(find.byType(RaisedButton));
+      expect(button.onPressed, isNull);
     });
   });
 }
