@@ -19,6 +19,7 @@ void main() {
   StreamController<UIError> mainErrorController;
   StreamController<bool> isFormValidController;
   StreamController<bool> isLoadingController;
+  StreamController<String> navigateToController;
 
   void initStreams() {
     nameErrorController = StreamController<UIError>();
@@ -28,6 +29,7 @@ void main() {
     mainErrorController = StreamController<UIError>();
     isFormValidController = StreamController<bool>();
     isLoadingController = StreamController<bool>();
+    navigateToController = StreamController<String>();
   }
 
   void mockStreams() {
@@ -45,6 +47,8 @@ void main() {
         .thenAnswer((_) => isFormValidController.stream);
     when(presenter.isLoadingStream)
         .thenAnswer((_) => isLoadingController.stream);
+    when(presenter.navigateToStream)
+        .thenAnswer((_) => navigateToController.stream);
   }
 
   void closeStreams() {
@@ -55,6 +59,7 @@ void main() {
     isFormValidController.close();
     isLoadingController.close();
     mainErrorController.close();
+    navigateToController.close();
   }
 
   Future<void> loadPage(WidgetTester tester) async {
@@ -271,6 +276,36 @@ void main() {
       await tester.pump();
       expect(
           find.text("Algo errado aconteceu. Tente novamente"), findsOneWidget);
+    });
+
+    testWidgets("should not present error on signUp success",
+        (WidgetTester tester) async {
+      await loadPage(tester);
+      mainErrorController.add(null);
+      await tester.pump();
+
+      expect(find.text('main error'), findsNothing);
+    });
+    testWidgets("should change page on authentication success",
+        (WidgetTester tester) async {
+      await loadPage(tester);
+      navigateToController.add('/any_route');
+      await tester.pumpAndSettle();
+
+      expect(Get.currentRoute, '/any_route');
+
+      expect(find.text('fake page'), findsOneWidget);
+    });
+    testWidgets("should not load page on invalid parameters",
+        (WidgetTester tester) async {
+      await loadPage(tester);
+      navigateToController.add('');
+      await tester.pump();
+      expect(Get.currentRoute, '/login');
+
+      navigateToController.add(null);
+      await tester.pump();
+      expect(Get.currentRoute, '/login');
     });
   });
 }
