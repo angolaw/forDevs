@@ -74,7 +74,9 @@ class SignUpPage extends StatelessWidget {
                               child: PasswordConfirmationInput(),
                             ),
                             SignUpButton(),
-                            BackToLoginButton(),
+                            BackToLoginButton(
+                              presenter: presenter,
+                            ),
                           ],
                         ),
                       ),
