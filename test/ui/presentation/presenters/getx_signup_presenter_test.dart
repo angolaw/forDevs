@@ -1,5 +1,8 @@
 import 'package:faker/faker.dart';
+import 'package:fordev/domain/entities/entities.dart';
+import 'package:fordev/domain/helpers/helpers.dart';
 import 'package:fordev/domain/usecases/save_current_account.dart';
+import 'package:fordev/domain/usecases/usecases.dart';
 import 'package:fordev/presentation/presenter/presenter.dart';
 import 'package:fordev/presentation/protocols/protocols.dart';
 import 'package:fordev/ui/helpers/errors/errors.dart';
@@ -10,6 +13,8 @@ class ValidationSpy extends Mock implements Validation {}
 
 class SaveCurrentAccountSpy extends Mock implements SaveCurrentAccount {}
 
+class AddAccountSpy extends Mock implements AddAccount {}
+
 void main() {
   GetxSignupPresenter sut;
   ValidationSpy validation;
@@ -17,23 +22,44 @@ void main() {
   String password;
   String name;
   String passwordConfirmation;
+  String token;
+  AddAccountSpy addAccount;
+  SaveCurrentAccount saveCurrentAccount;
 
   PostExpectation mockValidationCall(String field) => when(validation.validate(
       field: field == null ? anyNamed('field') : field,
       value: anyNamed('value')));
+  PostExpectation mockAddAccountCall() => when(addAccount.add(any));
 
   void mockValidation({String field, ValidationError value}) {
     mockValidationCall(field).thenReturn(value);
   }
 
+  void mockAddAccount() {
+    mockAddAccountCall().thenAnswer((_) => AccountEntity(token: token));
+  }
+
+  PostExpectation mockSaveCurrentAccountCall() =>
+      when(saveCurrentAccount.save(any));
+
+  void mockSaveCurrentAccountError() {
+    mockSaveCurrentAccountCall().thenThrow(DomainError.unexpected);
+  }
+
   setUp(() {
     validation = ValidationSpy();
+    addAccount = AddAccountSpy();
+    saveCurrentAccount = SaveCurrentAccountSpy();
 
-    sut = GetxSignupPresenter(validation: validation);
+    sut = GetxSignupPresenter(
+        validation: validation,
+        addAccount: addAccount,
+        saveCurrentAccount: saveCurrentAccount);
     email = faker.internet.email();
     password = faker.internet.password();
     passwordConfirmation = faker.internet.password();
-
+    token = faker.guid.guid();
+    mockAddAccount();
     mockValidation();
   });
 
@@ -210,6 +236,83 @@ void main() {
           .listen(expectAsync1((isValid) => expect(isValid, false)));
       sut.validateName(name);
       sut.validateName(name);
+    });
+  });
+  group("form Validation", () {
+    test("should enable form button if all fields are valid", () async {
+      expectLater(sut.isFormValidStream, emitsInOrder([false, true]));
+
+      sut.validateEmail(email);
+      await Future.delayed(Duration.zero);
+
+      sut.validatePassword(password);
+      await Future.delayed(Duration.zero);
+
+      sut.validateConfirmationPassword(passwordConfirmation);
+      await Future.delayed(Duration.zero);
+
+      sut.validateName(name);
+      await Future.delayed(Duration.zero);
+    });
+  });
+  group("Authentication validation", () {
+    test('Should call AddAccount with correct values', () async {
+      sut.validateName(name);
+      sut.validateEmail(email);
+      sut.validatePassword(password);
+      sut.validateConfirmationPassword(passwordConfirmation);
+
+      await sut.signUp();
+
+      verify(addAccount.add(AddAccountParams(
+              name: name,
+              email: email,
+              password: password,
+              passwordConfirmation: passwordConfirmation)))
+          .called(1);
+    });
+    test("should call SaveCurrentAccount with correct values", () async {
+      sut.validateName(name);
+      sut.validateEmail(email);
+      sut.validatePassword(password);
+      sut.validateConfirmationPassword(passwordConfirmation);
+
+      await sut.signUp();
+      verify(saveCurrentAccount.save(AccountEntity(token: token))).called(1);
+    });
+    test("should emit UnexpectedError if saveCurrentAccount fails", () async {
+      mockSaveCurrentAccountError();
+      sut.validateName(name);
+      sut.validateEmail(email);
+      sut.validatePassword(password);
+      sut.validateConfirmationPassword(passwordConfirmation);
+
+      await sut.signUp();
+      verify(saveCurrentAccount.save(AccountEntity(token: token))).called(1);
+    });
+    test("should emit  UnexpectedError if SaveCurrentAccount fails", () async {
+      mockSaveCurrentAccountError();
+      sut.validateName(name);
+      sut.validateEmail(email);
+      sut.validatePassword(password);
+      sut.validateConfirmationPassword(passwordConfirmation);
+
+      expectLater(sut.isLoadingStream, emits(true));
+      sut.mainErrorStream
+          .listen(expectAsync1((error) => expect(error, UIError.unexpected)));
+
+      await sut.signUp();
+    });
+
+    test("should emit correct events on addAccount success", () async {
+      sut.validateName(name);
+      sut.validateEmail(email);
+      sut.validatePassword(password);
+      sut.validateConfirmationPassword(passwordConfirmation);
+
+      expectLater(sut.isLoadingStream, emits(true));
+
+      await sut.signUp();
     });
   });
 }

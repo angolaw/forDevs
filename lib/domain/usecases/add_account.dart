@@ -1,8 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:fordev/domain/entities/account_entity.dart';
+import 'package:fordev/domain/entities/entities.dart';
 import 'package:meta/meta.dart';
-
-import '../entities/entities.dart';
 
 abstract class AddAccount {
   Future<AccountEntity> add(AddAccountParams params);
