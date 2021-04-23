@@ -1,5 +1,4 @@
 import 'package:faker/faker.dart';
-import 'package:fordev/domain/usecases/authentication.dart';
 import 'package:fordev/domain/usecases/save_current_account.dart';
 import 'package:fordev/presentation/presenter/presenter.dart';
 import 'package:fordev/presentation/protocols/protocols.dart';
@@ -8,8 +7,6 @@ import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
 class ValidationSpy extends Mock implements Validation {}
-
-class AuthenticationSpy extends Mock implements Authentication {}
 
 class SaveCurrentAccountSpy extends Mock implements SaveCurrentAccount {}
 
@@ -29,9 +26,7 @@ void main() {
   setUp(() {
     validation = ValidationSpy();
 
-    sut = GetXLoginPresenter(
-      saveCurrentAccount: saveCurrentAccount,
-    );
+    sut = GetxSignupPresenter(validation: validation);
     email = faker.internet.email();
 
     mockValidation();

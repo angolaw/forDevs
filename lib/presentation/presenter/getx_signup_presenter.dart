@@ -17,6 +17,7 @@ class GetxSignupPresenter extends GetxController {
   var _isFormValid = false.obs;
 
   Stream<UIError> get emailErrorStream => _emailError?.stream;
+  Stream<bool> get isFormValidStream => _isFormValid?.stream;
 
   void validateEmail(String email) {
     _emailError.value = _validateField(field: 'password', value: email);
