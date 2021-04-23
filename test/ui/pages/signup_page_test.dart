@@ -128,21 +128,21 @@ void main() {
 
     final name = faker.person.name();
     await tester.enterText(find.bySemanticsLabel('Nome'), name);
-    verify(presenter.validateName(name)).called(1);
+    verify(presenter.validateName(name));
 
     final email = faker.internet.email();
     await tester.enterText(find.bySemanticsLabel('Email'), email);
-    verify(presenter.validateEmail(email)).called(1);
+    verify(presenter.validateEmail(email));
 
-    final password = faker.internet.password();
+    final password = faker.company.name();
     await tester.enterText(find.bySemanticsLabel('Senha'), password);
-    verify(presenter.validatePassword(password)).called(1);
+    verify(presenter.validatePassword(password));
 
     final confirmationPassword = faker.internet.password();
     await tester.enterText(
         find.bySemanticsLabel('Confirmar senha'), confirmationPassword);
-    verify(presenter.validatePasswordConfirmation(confirmationPassword))
-        .called(1);
+
+    verify(presenter.validatePasswordConfirmation(confirmationPassword));
   });
   group("email test", () {
     testWidgets("should present email error if email is invalid",
