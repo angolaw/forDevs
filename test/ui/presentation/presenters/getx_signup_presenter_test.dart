@@ -16,6 +16,7 @@ void main() {
   String email;
   String password;
   String name;
+  String passwordConfirmation;
 
   PostExpectation mockValidationCall(String field) => when(validation.validate(
       field: field == null ? anyNamed('field') : field,
@@ -31,6 +32,7 @@ void main() {
     sut = GetxSignupPresenter(validation: validation);
     email = faker.internet.email();
     password = faker.internet.password();
+    passwordConfirmation = faker.internet.password();
 
     mockValidation();
   });
@@ -119,6 +121,52 @@ void main() {
           .listen(expectAsync1((isValid) => expect(isValid, false)));
       sut.validatePassword(password);
       sut.validatePassword(password);
+    });
+  });
+  group("passwordConfirmation validation", () {
+    test("should call validation with correct password confirmation", () {
+      sut.validateConfirmationPassword(passwordConfirmation);
+      verify(validation.validate(
+              field: "passwordConfirmation", value: passwordConfirmation))
+          .called(1);
+    });
+
+    test("should emit invalidFieldError if passwordConfirmation is not valid",
+        () {
+      mockValidation(value: ValidationError.invalidField);
+      sut.passwordConfirmationErrorStream
+          .listen(expectAsync1((error) => expect(error, UIError.invalidField)));
+      sut.isFormValidStream
+          .listen(expectAsync1((isValid) => expect(isValid, false)));
+      sut.validateConfirmationPassword(passwordConfirmation);
+      sut.validateConfirmationPassword(passwordConfirmation);
+    });
+    test("should emit requiredFieldError if password empty", () {
+      mockValidation(value: ValidationError.requiredField);
+      sut.passwordConfirmationErrorStream.listen(
+          expectAsync1((error) => expect(error, UIError.requiredField)));
+      sut.isFormValidStream
+          .listen(expectAsync1((isValid) => expect(isValid, false)));
+      sut.validateConfirmationPassword(passwordConfirmation);
+      sut.validateConfirmationPassword(passwordConfirmation);
+    });
+    test("should emit isFormValid if validation fails", () {
+      //mockando error
+      mockValidation(value: ValidationError.invalidField);
+      sut.passwordConfirmationErrorStream
+          .listen(expectAsync1((error) => expect(error, UIError.invalidField)));
+      sut.isFormValidStream
+          .listen(expectAsync1((isValid) => expect(isValid, false)));
+      sut.validateConfirmationPassword(passwordConfirmation);
+      sut.validateConfirmationPassword(passwordConfirmation);
+    });
+    test("should emit null if validation succeed", () {
+      sut.passwordConfirmationErrorStream
+          .listen(expectAsync1((error) => expect(error, null)));
+      sut.isFormValidStream
+          .listen(expectAsync1((isValid) => expect(isValid, false)));
+      sut.validateConfirmationPassword(passwordConfirmation);
+      sut.validateConfirmationPassword(passwordConfirmation);
     });
   });
 
