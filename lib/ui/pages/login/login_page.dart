@@ -65,7 +65,9 @@ class LoginPage extends StatelessWidget {
                               child: PasswordInput(),
                             ),
                             LoginButton(),
-                            CreateAccountButton(),
+                            CreateAccountButton(
+                              presenter: presenter,
+                            ),
                           ],
                         ),
                       ),

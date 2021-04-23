@@ -10,5 +10,6 @@ abstract class LoginPresenter {
   Stream<bool> get isLoadingStream;
   Stream<String> get navigateToStream;
   Future<void> auth();
+  void goToSignup();
   void dispose();
 }

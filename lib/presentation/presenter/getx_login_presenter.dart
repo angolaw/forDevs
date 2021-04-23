@@ -90,4 +90,6 @@ class GetXLoginPresenter extends GetxController implements LoginPresenter {
         _email != null &&
         _password != null;
   }
+
+  void goToSignup() {}
 }
