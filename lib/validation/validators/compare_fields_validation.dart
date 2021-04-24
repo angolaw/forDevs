@@ -4,11 +4,13 @@ import 'package:meta/meta.dart';
 
 class CompareFieldsValidation implements FieldValidation {
   final String field;
-  final String valueToCompare;
+  final String fieldToCompare;
 
   CompareFieldsValidation(
-      {@required this.field, @required this.valueToCompare});
+      {@required this.field, @required this.fieldToCompare});
   ValidationError validate(Map input) {
-    return valueToCompare == input[field] ? null : ValidationError.invalidField;
+    return input[fieldToCompare] == input[field]
+        ? null
+        : ValidationError.invalidField;
   }
 }
