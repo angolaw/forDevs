@@ -10,7 +10,7 @@ class CompareFieldsValidation implements FieldValidation {
   CompareFieldsValidation(
       {@required this.field, @required this.valueToCompare});
   ValidationError validate(String value) {
-    return ValidationError.invalidField;
+    return valueToCompare == value ? null : ValidationError.invalidField;
   }
 }
 
@@ -21,8 +21,12 @@ void main() {
         field: 'any_field', valueToCompare: 'any_value');
   });
 
-  test('should return error values are note the same', () {
+  test('should return error values are not the same', () {
     final error = sut.validate('wrong_value');
     expect(error, ValidationError.invalidField);
+  });
+  test('should return no error if the values are the same', () {
+    final error = sut.validate('any_value');
+    expect(error, null);
   });
 }
