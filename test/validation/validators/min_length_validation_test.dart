@@ -1,3 +1,4 @@
+import 'package:faker/faker.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fordev/presentation/protocols/protocols.dart';
 import 'package:fordev/validation/protocols/protocols.dart';
@@ -11,7 +12,7 @@ class MinLengthValidation implements FieldValidation {
     @required this.size,
   });
   ValidationError validate(String value) {
-    return ValidationError.requiredField;
+    return ValidationError.invalidField;
   }
 }
 
@@ -23,10 +24,14 @@ void main() {
 
   test('should return error if value is empty', () {
     final error = sut.validate('');
-    expect(error, ValidationError.requiredField);
+    expect(error, ValidationError.invalidField);
   });
   test('should return error if value is null', () {
     final error = sut.validate(null);
-    expect(error, ValidationError.requiredField);
+    expect(error, ValidationError.invalidField);
+  });
+  test('should return error if value is less than min size', () {
+    final error = sut.validate(faker.randomGenerator.string(4, min: 1));
+    expect(error, ValidationError.invalidField);
   });
 }
