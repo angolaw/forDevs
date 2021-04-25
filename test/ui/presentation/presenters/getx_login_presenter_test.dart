@@ -25,7 +25,7 @@ void main() {
   SaveCurrentAccountSpy saveCurrentAccount;
   PostExpectation mockValidationCall(String field) => when(validation.validate(
       field: field == null ? anyNamed('field') : field,
-      value: anyNamed('value')));
+      input: anyNamed('input')));
   void mockValidation({String field, ValidationError value}) {
     mockValidationCall(field).thenReturn(value);
   }
@@ -66,7 +66,8 @@ void main() {
   group("email validation", () {
     test("should call validation with correct email", () {
       sut.validateEmail(email);
-      verify(validation.validate(field: "email", value: email)).called(1);
+      final formData = {'email': email, 'password': null};
+      verify(validation.validate(field: "email", input: formData)).called(1);
     });
 
     test("should emit invalidFieldError if email is not valid", () {
@@ -107,8 +108,10 @@ void main() {
   });
   group("password validation", () {
     test("should call validation with correct password", () {
+      final formData = {'email': null, 'password': password};
+
       sut.validatePassword(password);
-      verify(validation.validate(field: "password", value: password)).called(1);
+      verify(validation.validate(field: "password", input: formData)).called(1);
     });
     test("should emit requiredFieldError if password empty", () {
       mockValidation(value: ValidationError.requiredField);
