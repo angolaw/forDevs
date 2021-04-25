@@ -5,7 +5,9 @@ import 'package:fordev/validation/protocols/protocols.dart';
 class RequiredFieldValidation extends Equatable implements FieldValidation {
   final String field;
 
-  RequiredFieldValidation(this.field);
+  RequiredFieldValidation(
+    this.field,
+  );
 
   ValidationError validate(Map input) {
     return input[field]?.isNotEmpty == true
