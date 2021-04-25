@@ -19,14 +19,9 @@ class RemoteLoadSurveys {
           .map((e) => RemoteSurveyModel.fromJson(e).toEntity())
           .toList();
     } on HttpError catch (e) {
-      switch (e) {
-        case HttpError.forbidden:
-          throw DomainError.accessDenied;
-          break;
-        default:
-          throw DomainError.unexpected;
-          break;
-      }
+      throw e == HttpError.forbidden
+          ? DomainError.accessDenied
+          : DomainError.unexpected;
     }
   }
 }
