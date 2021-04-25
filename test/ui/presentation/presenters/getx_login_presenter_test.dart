@@ -65,8 +65,9 @@ void main() {
 
   group("email validation", () {
     test("should call validation with correct email", () {
-      sut.validateEmail(email);
       final formData = {'email': email, 'password': null};
+
+      sut.validateEmail(email);
       verify(validation.validate(field: "email", input: formData)).called(1);
     });
 

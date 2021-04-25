@@ -39,7 +39,7 @@ class GetXLoginPresenter extends GetxController implements LoginPresenter {
 
   void validateEmail(String email) {
     _email = email;
-    _emailError.value = _validateField(field: 'password');
+    _emailError.value = _validateField(field: 'email');
     _validateForm();
   }
 
