@@ -2,10 +2,11 @@ import 'package:fordev/domain/helpers/helpers.dart';
 import 'package:fordev/domain/usecases/usecases.dart';
 import 'package:fordev/presentation/protocols/protocols.dart';
 import 'package:fordev/ui/helpers/helpers.dart';
+import 'package:fordev/ui/pages/signup/signup.dart';
 import 'package:get/get.dart';
 import 'package:meta/meta.dart';
 
-class GetxSignUpPresenter extends GetxController {
+class GetxSignUpPresenter extends GetxController implements SignUpPresenter {
   final Validation validation;
   final AddAccount addAccount;
   final SaveCurrentAccount saveCurrentAccount;
