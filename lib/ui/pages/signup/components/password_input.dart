@@ -12,7 +12,7 @@ class PasswordInput extends StatelessWidget {
         stream: presenter.passwordErrorStream,
         builder: (context, snapshot) {
           return TextFormField(
-            onChanged: presenter.validateEmail,
+            onChanged: presenter.validatePassword,
             decoration: InputDecoration(
               labelText: 'Senha',
               errorText: snapshot.hasData ? snapshot.data.description : null,
