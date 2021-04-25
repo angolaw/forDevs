@@ -18,8 +18,15 @@ class RemoteLoadSurveys {
       return httpResponse
           .map((e) => RemoteSurveyModel.fromJson(e).toEntity())
           .toList();
-    } on HttpError {
-      throw DomainError.unexpected;
+    } on HttpError catch (e) {
+      switch (e) {
+        case HttpError.unauthorized:
+          throw DomainError.invalidCredentials;
+          break;
+        default:
+          throw DomainError.unexpected;
+          break;
+      }
     }
   }
 }
@@ -100,5 +107,10 @@ void main() {
     mockHttpError(HttpError.serverError);
     final future = sut.load();
     expect(future, throwsA(DomainError.unexpected));
+  });
+  test("should throw UnexpectedError if HttpClient returns 401", () async {
+    mockHttpError(HttpError.unauthorized);
+    final future = sut.load();
+    expect(future, throwsA(DomainError.invalidCredentials));
   });
 }
