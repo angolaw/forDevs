@@ -65,7 +65,7 @@ class GetXLoginPresenter extends GetxController implements LoginPresenter {
   Future<void> auth() async {
     try {
       _isLoading.value = true;
-      _mainError = null;
+      _mainError.value = null;
       final account = await authentication
           .auth(AuthenticationParams(email: _email, secret: _password));
       await saveCurrentAccount.save(account);
@@ -77,7 +77,7 @@ class GetXLoginPresenter extends GetxController implements LoginPresenter {
           break;
 
         default:
-          _mainError?.value = UIError.unexpected;
+          _mainError.value = UIError.unexpected;
       }
       _isLoading.value = false;
     }
