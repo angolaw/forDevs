@@ -20,8 +20,8 @@ class RemoteLoadSurveys {
           .toList();
     } on HttpError catch (e) {
       switch (e) {
-        case HttpError.unauthorized:
-          throw DomainError.invalidCredentials;
+        case HttpError.forbidden:
+          throw DomainError.accessDenied;
           break;
         default:
           throw DomainError.unexpected;
@@ -108,9 +108,9 @@ void main() {
     final future = sut.load();
     expect(future, throwsA(DomainError.unexpected));
   });
-  test("should throw UnexpectedError if HttpClient returns 401", () async {
-    mockHttpError(HttpError.unauthorized);
+  test("should throw AccessDenied if HttpClient returns 403", () async {
+    mockHttpError(HttpError.forbidden);
     final future = sut.load();
-    expect(future, throwsA(DomainError.invalidCredentials));
+    expect(future, throwsA(DomainError.accessDenied));
   });
 }
