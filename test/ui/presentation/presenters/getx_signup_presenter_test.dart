@@ -310,6 +310,7 @@ void main() {
     sut.validatePasswordConfirmation(passwordConfirmation);
 
     expectLater(sut.isLoadingStream, emits(true));
+    expectLater(sut.mainErrorStream, emits(null));
 
     await sut.signUp();
   });
