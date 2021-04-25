@@ -6,7 +6,7 @@ void main() {
   CompareFieldsValidation sut;
   setUp(() {
     sut = CompareFieldsValidation(
-        field: 'any_field', fieldToCompare: 'any_value');
+        field: 'any_field', fieldToCompare: 'other_field');
   });
 
   test('should return error values are not the same', () {
