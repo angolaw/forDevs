@@ -23,4 +23,7 @@ void main() {
     final error = sut.validate({'any_field': 'wsadevv.abc'});
     expect(error, ValidationError.invalidField);
   });
+  test('should return null on invalid cases', () {
+    expect(sut.validate({}), null);
+  });
 }
