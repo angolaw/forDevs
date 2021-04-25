@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:fordev/ui/pages/pages.dart';
 import 'package:fordev/ui/pages/signup/signup.dart';
 
-import '../../factories.dart';
+import 'signup_presenter_factory.dart';
 
 Widget makeSignupPage() {
   return SignUpPage(
-    presenter: makeGetxSignupPresenter(),
+    presenter: makeGetxSignUpPresenter(),
   );
 }

@@ -1,10 +1,14 @@
-import 'package:fordev/main/factories/factories.dart';
-import 'package:fordev/presentation/presenter/presenter.dart';
 
-GetXLoginPresenter makeGetxSignUpPresenter() {
-  return GetxSignUpPresenter(
-    authentication: makeRemoteAuthentication(),
-    addAccount: null,
-    validation: null,
-  );
-}
+
+import 'package:fordev/presentation/presenter/presenter.dart';
+import 'package:fordev/ui/pages/signup/signup.dart';
+
+import '../../factories.dart';
+
+SignUpPresenter makeGetxSignUpPresenter()  =>
+   GetxSignUpPresenter(
+    addAccount: makeRemoteAddAccount(),
+    validation: makeSignUpValidation(),
+    saveCurrentAccount: makeLocalSaveCurrentAccount();
+
+
