@@ -21,7 +21,7 @@ class PasswordInput extends StatelessWidget {
                 color: Theme.of(context).primaryColorLight,
               ),
             ),
-            keyboardType: TextInputType.emailAddress,
+            keyboardType: TextInputType.text,
             obscureText: true,
           );
         });
