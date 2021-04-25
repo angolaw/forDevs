@@ -11,7 +11,7 @@ class EmailInput extends StatelessWidget {
         stream: presenter.emailErrorStream,
         builder: (context, snapshot) {
           return TextFormField(
-            onChanged: presenter.validatePassword,
+            onChanged: presenter.validateEmail,
             decoration: InputDecoration(
               labelText: 'Email',
               errorText: snapshot.hasData ? snapshot.data.description : null,
@@ -21,7 +21,6 @@ class EmailInput extends StatelessWidget {
               ),
             ),
             keyboardType: TextInputType.emailAddress,
-            obscureText: true,
           );
         });
   }

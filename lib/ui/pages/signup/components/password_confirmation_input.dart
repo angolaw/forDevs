@@ -22,6 +22,7 @@ class PasswordConfirmationInput extends StatelessWidget {
               ),
             ),
             keyboardType: TextInputType.text,
+            obscureText: true,
           );
         });
   }

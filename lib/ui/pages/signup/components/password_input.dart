@@ -22,6 +22,7 @@ class PasswordInput extends StatelessWidget {
               ),
             ),
             keyboardType: TextInputType.emailAddress,
+            obscureText: true,
           );
         });
   }
