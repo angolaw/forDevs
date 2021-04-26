@@ -165,9 +165,9 @@ void main() {
       expect(response, {'any_key': 'any_value'});
     });
     test("should return null if GET returns 200 with no data", () async {
-      mockResponse(200);
+      mockResponse(200, body: '');
       final response = await sut.request(url: url, method: 'get');
-      expect(response, {'any_key': 'any_value'});
+      expect(response, null);
     });
   });
 }
