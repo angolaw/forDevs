@@ -290,4 +290,22 @@ void main() {
       verify(presenter.goToLogin()).called(1);
     });
   });
+  group("loading", () {
+    testWidgets('should handle loading correctly', (WidgetTester tester) async {
+      await loadPage(tester);
+      isLoadingController.add(true);
+      await tester.pump();
+      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+      isLoadingController.add(false);
+      await tester.pump();
+      expect(find.byType(CircularProgressIndicator), findsNothing);
+
+      isLoadingController.add(true);
+      await tester.pump();
+      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+      isLoadingController.add(null);
+      await tester.pump();
+      expect(find.byType(CircularProgressIndicator), findsNothing);
+    });
+  });
 }
