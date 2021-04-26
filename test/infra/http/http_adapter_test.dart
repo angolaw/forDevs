@@ -159,5 +159,15 @@ void main() {
         "accept": "application/json"
       }));
     });
+    test("should return data if GET returns 200", () async {
+      mockResponse(200);
+      final response = await sut.request(url: url, method: 'get');
+      expect(response, {'any_key': 'any_value'});
+    });
+    test("should return null if GET returns 200 with no data", () async {
+      mockResponse(200);
+      final response = await sut.request(url: url, method: 'get');
+      expect(response, {'any_key': 'any_value'});
+    });
   });
 }
