@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 ThemeData makeAppTheme() {
   final primaryColor = Color.fromRGBO(136, 14, 79, 1);
   final primaryColorDark = Color.fromRGBO(96, 0, 39, 1);
+  final secondaryColorDark = Color.fromRGBO(0, 37, 26, 1);
   final primaryColorLight = Color.fromRGBO(188, 71, 123, 1);
 
   InputDecorationTheme inputDecorationTheme() {
@@ -33,6 +34,7 @@ ThemeData makeAppTheme() {
       primaryColor: primaryColor,
       primaryColorDark: primaryColorDark,
       primaryColorLight: primaryColorLight,
+      secondaryHeaderColor: secondaryColorDark,
       accentColor: primaryColor,
       textTheme: TextTheme(
           headline1: TextStyle(
