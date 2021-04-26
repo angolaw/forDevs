@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:fordev/ui/components/components.dart';
 import 'package:fordev/ui/helpers/helpers.dart';
 import 'package:fordev/ui/pages/pages.dart';
 
@@ -18,18 +19,27 @@ class SurveysPage extends StatelessWidget {
           centerTitle: true,
           title: Text(R.strings.surveys),
         ),
-        body: Padding(
-          padding: EdgeInsets.symmetric(vertical: 20),
-          child: CarouselSlider(
-            options: CarouselOptions(
-              enlargeCenterPage: true,
-              aspectRatio: 1,
-            ),
-            items: [
-              SurveyItem(),
-              SurveyItem(),
-            ],
-          ),
+        body: Builder(
+          builder: (context) {
+            presenter?.isLoadingStream?.listen((event) {
+              if (event) {
+                showLoading(context, "Aguarde");
+              }
+            });
+            return Padding(
+              padding: EdgeInsets.symmetric(vertical: 20),
+              child: CarouselSlider(
+                options: CarouselOptions(
+                  enlargeCenterPage: true,
+                  aspectRatio: 1,
+                ),
+                items: [
+                  SurveyItem(),
+                  SurveyItem(),
+                ],
+              ),
+            );
+          },
         ));
   }
 }
