@@ -4,5 +4,7 @@ import 'package:fordev/ui/pages/pages.dart';
 import '../../../../ui/pages/pages.dart';
 
 Widget makesSurveysPage() {
-  return SurveysPage();
+  return SurveysPage(
+    presenter: null,
+  );
 }
