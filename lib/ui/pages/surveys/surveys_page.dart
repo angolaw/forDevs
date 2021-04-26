@@ -24,6 +24,8 @@ class SurveysPage extends StatelessWidget {
             presenter?.isLoadingStream?.listen((event) {
               if (event) {
                 showLoading(context, "Aguarde");
+              } else {
+                hideLoading(context);
               }
             });
             return Padding(
