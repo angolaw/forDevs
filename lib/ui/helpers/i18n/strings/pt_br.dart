@@ -7,7 +7,7 @@ class PtBr implements Translations {
 
   @override
   // TODO: implement surveys
-  String get surveys => "Enquetes 22";
+  String get surveys => "Enquetes";
 
   @override
   // TODO: implement invalidCredentials
