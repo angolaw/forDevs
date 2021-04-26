@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:fordev/ui/components/components.dart';
 import 'package:fordev/ui/components/headline1.dart';
 import 'package:fordev/ui/components/login_header.dart';
+import 'package:fordev/ui/components/snack_bar_error.dart';
+import 'package:fordev/ui/components/spinner_dialog.dart';
+import 'package:fordev/ui/helpers/errors/errors.dart';
 import 'package:fordev/ui/helpers/helpers.dart';
 import 'package:fordev/ui/pages/signup/signup.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
-import 'components/components.dart';
+import 'components/signup_components.dart';
 
 class SignUpPage extends StatelessWidget {
   final SignUpPresenter presenter;
@@ -58,7 +60,7 @@ class SignUpPage extends StatelessWidget {
                   Headline1(text: R.strings.addAccount),
                   Padding(
                     padding: const EdgeInsets.all(32),
-                    child: Provider(
+                    child: Provider<SignUpPresenter>(
                       create: (_) => presenter,
                       child: Form(
                         child: Column(

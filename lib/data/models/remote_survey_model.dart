@@ -1,9 +1,8 @@
 import 'dart:convert';
 
 import 'package:fordev/data/http/http.dart';
+import 'package:fordev/domain/entities/entities.dart';
 import 'package:meta/meta.dart';
-
-import '../../domain/entities/entities.dart';
 
 class RemoteSurveyModel {
   final String id;

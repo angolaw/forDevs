@@ -1,5 +1,6 @@
+import 'package:fordev/domain/entities/entities.dart';
+
 import '../http/http.dart';
-import '../../domain/entities/entities.dart';
 
 class RemoteAccountModel {
   final String accessToken;
