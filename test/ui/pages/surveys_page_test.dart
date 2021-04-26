@@ -120,4 +120,32 @@ void main() {
     expect(find.text('Date 1'), findsOneWidget);
     expect(find.text('Date 2'), findsOneWidget);
   });
+
+  testWidgets('should call LoadSurveys on reload button click',
+      (WidgetTester tester) async {
+    await loadPage(tester);
+    loadSurveysController.addError(UIError.unexpected.description);
+    await tester.pump();
+    await tester.tap(find.text("Recarregar"));
+
+    verify(presenter.loadData()).called(2);
+  });
+
+  // testWidgets('should present green if user did answer the survey',
+  //     (WidgetTester tester) async {
+  //   await loadPage(tester);
+  //   final targetColor = Color.fromRGBO(0, 37, 26, 1);
+  //   WidgetPredicate widgetSelectedPredicate =
+  //       (Widget widget) => widget is Container && widget.color == targetColor;
+  //   loadSurveysController.add(makeSurveys());
+  //   await tester.pump();
+  //   expect(find.text('Algo errado aconteceu. Tente novamente'), findsNothing);
+  //   expect(find.text('Recarregar'), findsNothing);
+  //   expect(find.text('Question 1'), findsOneWidget);
+  //   expect(find.text('Question 2'), findsOneWidget);
+  //   expect(find.text('Date 1'), findsOneWidget);
+  //   expect(find.text('Date 2'), findsOneWidget);
+  //
+  //   //expect(find.byWidgetPredicate(widgetSelectedPredicate), findsOneWidget);
+  // });
 }
