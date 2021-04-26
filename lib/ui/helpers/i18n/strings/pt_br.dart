@@ -48,4 +48,8 @@ class PtBr implements Translations {
   @override
   // TODO: implement emailInUse
   String get emailInUse => "O email já está em uso";
+
+  @override
+  // TODO: implement loading
+  String get reload => "Recarregar";
 }

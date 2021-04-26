@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fordev/ui/helpers/errors/errors.dart';
 import 'package:fordev/ui/pages/pages.dart';
 import 'package:get/get.dart';
 import 'package:mockito/mockito.dart';
@@ -11,18 +11,23 @@ class SurveysPresenterSpy extends Mock implements SurveysPresenter {}
 void main() {
   SurveysPresenter presenter;
   StreamController<bool> isLoadingController;
+  StreamController<List<SurveyViewModel>> loadSurveysController;
 
   void initStreams() {
     isLoadingController = StreamController<bool>();
+    loadSurveysController = StreamController<List<SurveyViewModel>>();
   }
 
   void mockStreams() {
     when(presenter.isLoadingStream)
         .thenAnswer((_) => isLoadingController.stream);
+    when(presenter.loadSurveysStream)
+        .thenAnswer((_) => loadSurveysController.stream);
   }
 
   void closeStreams() {
     isLoadingController.close();
+    loadSurveysController.close();
   }
 
   Future<void> loadPage(WidgetTester tester) async {
@@ -48,20 +53,13 @@ void main() {
     verify(presenter.loadData()).called(1);
   });
 
-  testWidgets('should handle loading correctly', (WidgetTester tester) async {
+  testWidgets('should present error if loadSurveysStreams fails ',
+      (WidgetTester tester) async {
     await loadPage(tester);
-    isLoadingController.add(true);
+    loadSurveysController.addError(UIError.unexpected.description);
     await tester.pump();
-    expect(find.byType(CircularProgressIndicator), findsOneWidget);
-    isLoadingController.add(false);
-    await tester.pump();
-    expect(find.byType(CircularProgressIndicator), findsNothing);
-
-    isLoadingController.add(true);
-    await tester.pump();
-    expect(find.byType(CircularProgressIndicator), findsOneWidget);
-    isLoadingController.add(null);
-    await tester.pump();
-    expect(find.byType(CircularProgressIndicator), findsNothing);
+    expect(find.text('Algo errado aconteceu. Tente novamente'), findsOneWidget);
+    expect(find.text('Recarregar'), findsOneWidget);
+    expect(find.text('Question 1'), findsNothing);
   });
 }

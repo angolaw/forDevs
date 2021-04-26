@@ -48,4 +48,8 @@ class EnUs implements Translations {
   @override
   // TODO: implement emailInUse
   String get emailInUse => "Email already in use";
+
+  @override
+  // TODO: implement loading
+  String get reload => "Reload";
 }
