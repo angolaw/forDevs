@@ -41,21 +41,23 @@ class SurveysPage extends StatelessWidget {
                         )
                       ],
                     );
-                  } else {
+                  }
+                  if (snapshot.hasData) {
                     return Padding(
                       padding: EdgeInsets.symmetric(vertical: 20),
                       child: CarouselSlider(
-                        options: CarouselOptions(
-                          enlargeCenterPage: true,
-                          aspectRatio: 1,
-                        ),
-                        items: [
-                          SurveyItem(),
-                          SurveyItem(),
-                        ],
-                      ),
+                          options: CarouselOptions(
+                            enlargeCenterPage: true,
+                            aspectRatio: 1,
+                          ),
+                          items: snapshot?.data
+                              .map((survey) => SurveyItem(
+                                    viewModel: survey,
+                                  ))
+                              .toList()),
                     );
                   }
+                  return SizedBox.shrink();
                 });
           },
         ));
