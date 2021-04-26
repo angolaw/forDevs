@@ -148,6 +148,10 @@ void main() {
       mockRequest().thenAnswer((_) async => Response(body, statusCode));
     }
 
+    void mockError() {
+      mockRequest().thenThrow(Exception());
+    }
+
     setUp(() {
       mockResponse(200);
     });
@@ -209,9 +213,9 @@ void main() {
       final future = sut.request(url: url, method: 'get');
       expect(future, throwsA(HttpError.serverError));
     });
-    test("should return Server Error if post throws", () async {
+    test("should return Server Error if GET throws", () async {
       mockError();
-      final future = sut.request(url: url, method: 'post');
+      final future = sut.request(url: url, method: 'get');
       expect(future, throwsA(HttpError.serverError));
     });
   });
