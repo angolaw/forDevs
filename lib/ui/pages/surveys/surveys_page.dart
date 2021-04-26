@@ -21,8 +21,8 @@ class SurveysPage extends StatelessWidget {
         ),
         body: Builder(
           builder: (context) {
-            presenter?.isLoadingStream?.listen((event) {
-              if (event) {
+            presenter?.isLoadingStream?.listen((isLoading) {
+              if (isLoading == true) {
                 showLoading(context, "Aguarde");
               } else {
                 hideLoading(context);
