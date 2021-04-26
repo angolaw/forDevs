@@ -47,13 +47,13 @@ void main() {
     return [
       SurveyViewModel(
         id: "1",
-        date: "20/01/2020",
+        date: "Date 1",
         didAnswer: true,
         question: "Question 1",
       ),
       SurveyViewModel(
         id: "2",
-        date: "20/01/2020",
+        date: "Date 2",
         didAnswer: false,
         question: "Question 2",
       ),
@@ -106,5 +106,18 @@ void main() {
     expect(find.text('Recarregar'), findsNothing);
     expect(find.text('Question 1'), findsOneWidget);
     expect(find.text('Question 2'), findsOneWidget);
+  });
+  testWidgets(
+      'should present viewModel data in SurveyItem if loadSurveysStream succeeds ',
+      (WidgetTester tester) async {
+    await loadPage(tester);
+    loadSurveysController.add(makeSurveys());
+    await tester.pump();
+    expect(find.text('Algo errado aconteceu. Tente novamente'), findsNothing);
+    expect(find.text('Recarregar'), findsNothing);
+    expect(find.text('Question 1'), findsOneWidget);
+    expect(find.text('Question 2'), findsOneWidget);
+    expect(find.text('Date 1'), findsOneWidget);
+    expect(find.text('Date 2'), findsOneWidget);
   });
 }
