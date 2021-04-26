@@ -194,5 +194,10 @@ void main() {
       final future = sut.request(url: url, method: 'get');
       expect(future, throwsA(HttpError.unauthorized));
     });
+    test("should return Forbidden if GET returns 403", () async {
+      mockResponse(403);
+      final future = sut.request(url: url, method: 'get');
+      expect(future, throwsA(HttpError.forbidden));
+    });
   });
 }
