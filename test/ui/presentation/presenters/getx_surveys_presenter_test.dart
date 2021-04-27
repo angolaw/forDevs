@@ -1,6 +1,8 @@
 import 'package:faker/faker.dart';
 import 'package:fordev/domain/entities/entities.dart';
+import 'package:fordev/domain/helpers/helpers.dart';
 import 'package:fordev/domain/usecases/load_surveys.dart';
+import 'package:fordev/ui/helpers/helpers.dart';
 import 'package:fordev/ui/pages/surveys/survey_viewmodel.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -19,17 +21,22 @@ class GextSurveysPresenter {
   GextSurveysPresenter({@required this.loadSurveys});
 
   Future<void> loadData() async {
-    _isLoading.value = true;
-    final surveys = await loadSurveys.load();
-    _surveys.value = surveys
-        .map((e) => SurveyViewModel(
-              id: e.id,
-              question: e.question,
-              didAnswer: e.didAnswer,
-              date: DateFormat('dd MMM yyyy').format(e.dateTime),
-            ))
-        .toList();
-    _isLoading.value = false;
+    try {
+      _isLoading.value = true;
+      final surveys = await loadSurveys.load();
+      _surveys.value = surveys
+          .map((e) => SurveyViewModel(
+                id: e.id,
+                question: e.question,
+                didAnswer: e.didAnswer,
+                date: DateFormat('dd MMM yyyy').format(e.dateTime),
+              ))
+          .toList();
+    } on DomainError {
+      _surveys.addError(UIError.unexpected.description);
+    } finally {
+      _isLoading.value = false;
+    }
   }
 }
 
@@ -52,11 +59,14 @@ void main() {
             dateTime: DateTime(2021, 7, 2),
             didAnswer: faker.randomGenerator.boolean()),
       ];
-
+  PostExpectation mockLoadSurveysCall() => when(loadSurveys.load());
   void mockLoadSurveys(List<SurveyEntity> data) {
     surveys = data;
-    when(loadSurveys.load()).thenAnswer((_) async => data);
+    mockLoadSurveysCall().thenAnswer((_) async => data);
   }
+
+  void mockLoadSurveysError() =>
+      mockLoadSurveysCall().thenThrow(DomainError.unexpected);
 
   setUp(() {
     loadSurveys = LoadSurveysSpy();
@@ -82,6 +92,16 @@ void main() {
               date: '02 Jul 2021',
               didAnswer: surveys[1].didAnswer)
         ])));
+
+    await sut.loadData();
+  });
+  test('should emit correct events on failure', () async {
+    mockLoadSurveysError();
+    expectLater(sut.isLoadingStream, emitsInOrder([true, false]));
+
+    sut.surveysStream.listen(null,
+        onError: expectAsync1(
+            (error) => expect(error, UIError.unexpected.description)));
 
     await sut.loadData();
   });
