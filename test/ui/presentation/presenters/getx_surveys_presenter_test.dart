@@ -46,8 +46,6 @@ void main() {
     verify(loadSurveys.load()).called(1);
   });
   test('should emit correct events on success', () async {
-    expectLater(sut.isLoadingStream, emitsInOrder([true, false]));
-
     sut.surveysStream.listen(expectAsync1((surveys) => expect(surveys, [
           SurveyViewModel(
               id: surveys[0].id,
@@ -65,7 +63,6 @@ void main() {
   });
   test('should emit correct events on failure', () async {
     mockLoadSurveysError();
-    expectLater(sut.isLoadingStream, emitsInOrder([true, false]));
 
     sut.surveysStream.listen(null,
         onError: expectAsync1(

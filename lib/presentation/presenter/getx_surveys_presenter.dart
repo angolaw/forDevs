@@ -8,8 +8,6 @@ import 'package:meta/meta.dart';
 
 class GextSurveysPresenter implements SurveysPresenter {
   final LoadSurveys loadSurveys;
-  final _isLoading = true.obs;
-  Stream<bool> get isLoadingStream => _isLoading.stream;
   final _surveys = Rx<List<SurveyViewModel>>([]);
 
   Stream<List<SurveyViewModel>> get surveysStream => _surveys.stream;
@@ -18,7 +16,6 @@ class GextSurveysPresenter implements SurveysPresenter {
 
   Future<void> loadData() async {
     try {
-      _isLoading.value = true;
       final surveys = await loadSurveys.load();
       _surveys.value = surveys
           .map((e) => SurveyViewModel(
@@ -32,8 +29,6 @@ class GextSurveysPresenter implements SurveysPresenter {
       print("Domain Error: " + error.toString());
       _surveys.subject
           .addError(UIError.unexpected.description, StackTrace.empty);
-    } finally {
-      _isLoading.value = false;
     }
   }
 }

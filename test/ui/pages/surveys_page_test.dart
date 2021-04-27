@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fordev/ui/helpers/errors/errors.dart';
 import 'package:fordev/ui/pages/pages.dart';
@@ -10,30 +11,13 @@ class SurveysPresenterSpy extends Mock implements SurveysPresenter {}
 
 void main() {
   SurveysPresenter presenter;
-  StreamController<bool> isLoadingController;
   StreamController<List<SurveyViewModel>> loadSurveysController;
-
-  void initStreams() {
-    isLoadingController = StreamController<bool>();
-    loadSurveysController = StreamController<List<SurveyViewModel>>();
-  }
-
-  void mockStreams() {
-    when(presenter.isLoadingStream)
-        .thenAnswer((_) => isLoadingController.stream);
-    when(presenter.surveysStream)
-        .thenAnswer((_) => loadSurveysController.stream);
-  }
-
-  void closeStreams() {
-    isLoadingController.close();
-    loadSurveysController.close();
-  }
 
   Future<void> loadPage(WidgetTester tester) async {
     presenter = SurveysPresenterSpy();
-    initStreams();
-    mockStreams();
+    loadSurveysController = StreamController<List<SurveyViewModel>>();
+    when(presenter.surveysStream)
+        .thenAnswer((_) => loadSurveysController.stream);
     final surveysPage = GetMaterialApp(initialRoute: '/surveys', getPages: [
       GetPage(
         name: '/surveys',
@@ -79,7 +63,7 @@ void main() {
   }
 
   tearDown(() {
-    closeStreams();
+    loadSurveysController.close();
   });
 
   testWidgets('should call LoadSurveys on page load',
@@ -96,21 +80,26 @@ void main() {
     expect(find.text('Algo errado aconteceu. Tente novamente'), findsOneWidget);
     expect(find.text('Recarregar'), findsOneWidget);
     expect(find.text('Question 1'), findsNothing);
+    expect(find.byType(CircularProgressIndicator), findsNothing);
   });
   testWidgets('should present list if surveysStreams succeeds ',
       (WidgetTester tester) async {
     await loadPage(tester);
+    expect(find.byType(CircularProgressIndicator), findsOneWidget);
     loadSurveysController.add(makeSurveys());
     await tester.pump();
     expect(find.text('Algo errado aconteceu. Tente novamente'), findsNothing);
     expect(find.text('Recarregar'), findsNothing);
     expect(find.text('Question 1'), findsOneWidget);
     expect(find.text('Question 2'), findsOneWidget);
+    expect(find.byType(CircularProgressIndicator), findsNothing);
   });
   testWidgets(
       'should present viewModel data in SurveyItem if surveysStream succeeds ',
       (WidgetTester tester) async {
     await loadPage(tester);
+    expect(find.byType(CircularProgressIndicator), findsOneWidget);
+
     loadSurveysController.add(makeSurveys());
     await tester.pump();
     expect(find.text('Algo errado aconteceu. Tente novamente'), findsNothing);
