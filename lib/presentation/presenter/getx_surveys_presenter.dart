@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
 
-class GextSurveysPresenter {
+class GextSurveysPresenter implements SurveysPresenter {
   final LoadSurveys loadSurveys;
   final _isLoading = true.obs;
   Stream<bool> get isLoadingStream => _isLoading.stream;

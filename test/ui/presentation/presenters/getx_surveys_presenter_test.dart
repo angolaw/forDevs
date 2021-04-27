@@ -2,7 +2,7 @@ import 'package:faker/faker.dart';
 import 'package:fordev/domain/entities/entities.dart';
 import 'package:fordev/domain/helpers/helpers.dart';
 import 'package:fordev/domain/usecases/load_surveys.dart';
-import 'package:fordev/presentation/presenter/getx_surveys_presenter.dart';
+import 'package:fordev/presentation/presenter/presenter.dart';
 import 'package:fordev/ui/helpers/helpers.dart';
 import 'package:fordev/ui/pages/surveys/survey_viewmodel.dart';
 import 'package:mockito/mockito.dart';
