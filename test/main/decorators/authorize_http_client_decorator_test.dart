@@ -5,7 +5,7 @@ import 'package:meta/meta.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
-class AuthorizeHttpClientDecorator {
+class AuthorizeHttpClientDecorator implements HttpClient {
   final FetchSecureCacheStorage fetchSecureCacheStorage;
   final HttpClient decoratee;
 
@@ -17,12 +17,16 @@ class AuthorizeHttpClientDecorator {
       @required String method,
       Map body,
       Map headers}) async {
-    final token = await fetchSecureCacheStorage.fetchSecure('token');
-    final authorizedHeaders = headers ?? {}
-      ..addAll({'x-access-token': token});
-    final response = await decoratee.request(
-        url: url, method: method, body: body, headers: authorizedHeaders);
-    return response;
+    try {
+      final token = await fetchSecureCacheStorage.fetchSecure('token');
+      final authorizedHeaders = headers ?? {}
+        ..addAll({'x-access-token': token});
+      final response = await decoratee.request(
+          url: url, method: method, body: body, headers: authorizedHeaders);
+      return response;
+    } catch (error) {
+      throw HttpError.forbidden;
+    }
   }
 }
 
@@ -40,10 +44,15 @@ void main() {
   Map body;
   String token;
   String httpResponse;
+  PostExpectation mockTokenCall() =>
+      when(fetchSecureCacheStorage.fetchSecure(any));
   void mockToken() {
     token = faker.guid.guid();
-    when(fetchSecureCacheStorage.fetchSecure(any))
-        .thenAnswer((_) async => token);
+    mockTokenCall().thenAnswer((_) async => token);
+  }
+
+  void mockSecureStorageError() {
+    mockTokenCall().thenThrow(Exception());
   }
 
   void mockHttpResponse() {
@@ -109,5 +118,11 @@ void main() {
   test('should return same result as decoratee', () async {
     final response = await sut.request(url: url, method: method, body: body);
     expect(response, httpResponse);
+  });
+  test('should throw forbidden error if fetchSecureCacheStorage throws',
+      () async {
+    mockSecureStorageError();
+    final future = sut.request(url: url, method: method, body: body);
+    expect(future, throwsA(HttpError.forbidden));
   });
 }
