@@ -28,7 +28,8 @@ class GextSurveysPresenter implements SurveysPresenter {
                 date: DateFormat('dd MMM yyyy').format(e.dateTime),
               ))
           .toList();
-    } on DomainError {
+    } on DomainError catch (error) {
+      print("Domain Error: " + error.toString());
       _surveys.subject
           .addError(UIError.unexpected.description, StackTrace.empty);
     } finally {
