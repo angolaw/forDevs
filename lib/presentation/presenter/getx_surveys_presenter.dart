@@ -26,6 +26,7 @@ class GextSurveysPresenter implements SurveysPresenter {
               ))
           .toList();
     } on DomainError catch (error) {
+      //TODO FIX THIS
       print("Domain Error: " + error.toString());
       _surveys.subject
           .addError(UIError.unexpected.description, StackTrace.empty);
