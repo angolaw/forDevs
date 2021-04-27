@@ -179,6 +179,14 @@ void main() {
         "content-type": "application/json",
         "accept": "application/json"
       }));
+
+      await sut.request(
+          url: url, method: 'get', headers: {'any_header': 'any_value'});
+      verify(client.get(Uri.parse(url), headers: {
+        "content-type": "application/json",
+        "accept": "application/json",
+        'any_header': 'any_value'
+      }));
     });
     test("should return data if GET returns 200", () async {
       mockResponse(200);
