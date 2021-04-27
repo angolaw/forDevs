@@ -29,7 +29,8 @@ class GextSurveysPresenter implements SurveysPresenter {
               ))
           .toList();
     } on DomainError {
-      _surveys.addError(UIError.unexpected.description);
+      _surveys.subject
+          .addError(UIError.unexpected.description, StackTrace.empty);
     } finally {
       _isLoading.value = false;
     }
