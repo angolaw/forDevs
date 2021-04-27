@@ -21,7 +21,7 @@ void main() {
   void mockStreams() {
     when(presenter.isLoadingStream)
         .thenAnswer((_) => isLoadingController.stream);
-    when(presenter.loadSurveysStream)
+    when(presenter.surveysStream)
         .thenAnswer((_) => loadSurveysController.stream);
   }
 
@@ -88,7 +88,7 @@ void main() {
     verify(presenter.loadData()).called(1);
   });
 
-  testWidgets('should present error if loadSurveysStreams fails ',
+  testWidgets('should present error if surveysStreams fails ',
       (WidgetTester tester) async {
     await loadPage(tester);
     loadSurveysController.addError(UIError.unexpected.description);
@@ -97,7 +97,7 @@ void main() {
     expect(find.text('Recarregar'), findsOneWidget);
     expect(find.text('Question 1'), findsNothing);
   });
-  testWidgets('should present list if loadSurveysStreams succeeds ',
+  testWidgets('should present list if surveysStreams succeeds ',
       (WidgetTester tester) async {
     await loadPage(tester);
     loadSurveysController.add(makeSurveys());
@@ -108,7 +108,7 @@ void main() {
     expect(find.text('Question 2'), findsOneWidget);
   });
   testWidgets(
-      'should present viewModel data in SurveyItem if loadSurveysStream succeeds ',
+      'should present viewModel data in SurveyItem if surveysStream succeeds ',
       (WidgetTester tester) async {
     await loadPage(tester);
     loadSurveysController.add(makeSurveys());
