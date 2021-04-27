@@ -6,7 +6,7 @@ import 'package:fordev/domain/usecases/add_account.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
-class HttpClientSpy extends Mock implements HttpClient<Map> {}
+class HttpClientSpy extends Mock implements HttpClient {}
 
 void main() {
   HttpClientSpy httpClient;
