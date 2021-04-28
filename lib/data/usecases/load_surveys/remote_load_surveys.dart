@@ -20,6 +20,7 @@ class RemoteLoadSurveys implements LoadSurveys {
               (json) => RemoteSurveyModel.fromJson(json).toEntity())
           .toList();
     } on HttpError catch (error) {
+      print("ON remote load survey $error");
       throw error == HttpError.forbidden
           ? DomainError.accessDenied
           : DomainError.unexpected;

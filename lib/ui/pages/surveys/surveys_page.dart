@@ -22,18 +22,20 @@ class SurveysPage extends StatelessWidget {
             if (snapshot.hasError) {
               return Padding(
                 padding: EdgeInsets.all(40),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(snapshot.error,
-                        style: TextStyle(fontSize: 16),
-                        textAlign: TextAlign.center),
-                    SizedBox(height: 10),
-                    RaisedButton(
-                      onPressed: presenter.loadData,
-                      child: Text(R.strings.reload),
-                    )
-                  ],
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(snapshot.error,
+                          style: TextStyle(fontSize: 16),
+                          textAlign: TextAlign.center),
+                      SizedBox(height: 10),
+                      RaisedButton(
+                        onPressed: presenter.loadData,
+                        child: Text(R.strings.reload),
+                      )
+                    ],
+                  ),
                 ),
               );
             }

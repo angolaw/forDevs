@@ -24,13 +24,13 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^0.1.3
-  carousel_slider: ^3.0.0
+  carousel_slider:
   equatable:
   flutter_secure_storage:
-  get: 3.26.0
-  http: ^0.13.1
-  intl: ^0.17.0
-  provider: 4.3.2+2
+  get: 4.1.4
+  http:
+  intl:
+  provider:
 
 dev_dependencies:
   flutter_test:
