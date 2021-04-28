@@ -18,18 +18,14 @@ class GextSurveysPresenter implements SurveysPresenter {
     try {
       final surveys = await loadSurveys.load();
       _surveys.value = surveys
-          .map((e) => SurveyViewModel(
-                id: e.id,
-                question: e.question,
-                didAnswer: e.didAnswer,
-                date: DateFormat('dd MMM yyyy').format(e.dateTime),
-              ))
+          .map((survey) => SurveyViewModel(
+              id: survey.id,
+              question: survey.question,
+              date: DateFormat('dd MMM yyyy').format(survey.dateTime),
+              didAnswer: survey.didAnswer))
           .toList();
     } on DomainError catch (error) {
-      //TODO FIX THIS
-      print("Domain Error: " + error.toString());
-      _surveys.subject
-          .addError(UIError.unexpected.description, StackTrace.empty);
+      _surveys.subject.addError(UIError.unexpected.description);
     }
   }
 }
