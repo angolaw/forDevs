@@ -1,5 +1,6 @@
 import 'package:fordev/data/cache/cache.dart';
 import 'package:fordev/data/http/http.dart';
+import 'package:logger/logger.dart';
 import 'package:meta/meta.dart';
 
 class AuthorizeHttpClientDecorator implements HttpClient {

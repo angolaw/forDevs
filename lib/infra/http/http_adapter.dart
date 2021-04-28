@@ -9,14 +9,15 @@ class HttpAdapter implements HttpClient {
   final Client client;
 
   HttpAdapter({this.client});
-  Future<Map> request(
+  Future<dynamic> request(
       {@required String url,
       @required String method,
       Map body,
       Map headers}) async {
     final defaultHeaders = headers?.cast<String, String>() ?? {}
       ..addAll(
-          {"content-type": "application/json", "accept": "application/json"});
+        {"content-type": "application/json", "accept": "application/json"},
+      );
     final jsonBody = body != null ? jsonEncode(body) : null;
 
     var response = Response('', 500);
@@ -27,7 +28,7 @@ class HttpAdapter implements HttpClient {
       } else if (method == "get") {
         response = await client.get(Uri.parse(url), headers: defaultHeaders);
       }
-    } on Exception {
+    } catch (error) {
       throw HttpError.serverError;
     }
 

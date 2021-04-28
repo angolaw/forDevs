@@ -27,7 +27,7 @@ dependencies:
   carousel_slider: ^3.0.0
   equatable:
   flutter_secure_storage:
-  get: ^4.1.4
+  get: 3.26.0
   http: ^0.13.1
   intl: ^0.17.0
   provider: 4.3.2+2
@@ -39,6 +39,7 @@ dev_dependencies:
   mockito: null
   test: null
   flutter_launcher_icons: ^0.9.0
+  logger: ^1.0.0
 
 
 
